@@ -1,0 +1,78 @@
+{
+  "type": "component",
+  "props": {
+    "value": {
+      "type": [ "Object" ],
+      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "required": true,
+      "examples": [ "v-model=\"myText\"" ],
+      "category": "model"
+    },
+    "categories": {
+      "type": [ "Array" ],
+      "desc": "Available categories that the user can select from",
+      "required": true,
+      "examples": [
+        ":categories=\"[ { label: 'General', icon: 'person', options: \"[ { label: 'Samsung Phone', value: 'phone' } ]\" } ]\"",
+        ":categories=\"[ { label: 'Orders', icon: 'shopping_cart', multiple: true, options: \"[ 'delivered', 'arrived' ]\" } ]\""
+      ],
+      "category": "categories"
+    },
+    "ignore": {
+      "type": [ "Array" ],
+      "desc": "List of filters that will be ignored",
+      "required": true,
+      "examples": [ ":ignore=\"[ 'custom_filter' ]\"" ],
+      "category": "categories"
+    },
+    "reverse": {
+      "type": [ "Boolean" ],
+      "desc": "Reverse row",
+      "category": "style"
+    },
+    "minWidth": {
+      "type": [ "String" ],
+      "desc": "The minimum width of the menu; Size in CSS units, including unit name",
+      "examples": [ "16px", "2rem" ],
+      "default": "750px",
+      "category": "style"
+    },
+    "color": {
+      "type": [ "String" ],
+      "desc": "Color name for component from the Quasar Color Palette. Except brand colors!",
+      "examples": [ "red", "pink", "purple", "indigo", "blue", "light-blue", "cyan", "teal", "green", "light-green", "lime", "amber", "orange", "brown", "grey" ],
+      "default": "blue",
+      "category": "style"
+    },
+    "maxDisplay": {
+      "type": [ "Number", "String"],
+      "desc": "The maximum values to shown in the QChip",
+      "default": 3,
+      "category": "style"
+    },
+    "btnLabel": {
+      "type": [ "String" ],
+      "desc": "Default button label",
+      "default": "add filter",
+      "category": "content"
+    },
+    "propertiesLabel": {
+      "type": [ "String" ],
+      "desc": "Default 'properties' label",
+      "default": "properties",
+      "category": "content"
+    }
+  },
+  "events": {
+    "input": {
+      "desc": "Emitted when the component needs to change the model; Is also used by v-model",
+      "params": {
+        "value": {
+          "desc": "New model value",
+          "type": [ "Object" ],
+          "required": true
+        }
+      }
+    }
+  }
+}
