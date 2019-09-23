@@ -110,6 +110,7 @@ export default {
           label: 'Map',
           icon: 'navigation',
           filters: [
+            { label: 'Nation', model: 'region_flag', options: ['Italy', 'Los Angeles'] },
             { label: 'City', model: 'city_id', multiple: true, options: [{ label: 'California', value: 10 }, { label: 'Naples', value: 20 }] }
           ]
         },
@@ -118,14 +119,22 @@ export default {
           icon: 'local_offer',
           filters: [
             { label: 'Categories', model: 'category_id', multiple: true, options: [{ label: 'Electronic', value: 10 }, { label: 'Phones', value: 20 }] },
-            { label: 'Brand', model: 'brand_id', multiple: true, options: [{ label: 'Samsung', value: 10 }, { label: 'Sony', value: 20 }] }
+            { label: 'Brand', model: 'brand_id', multiple: true, options: [{ label: 'Asus', value: 10 }, { label: 'MSI', value: 20 }] }
+          ]
+        },
+        {
+          label: 'Phone',
+          icon: 'phone',
+          filters: [
+            { label: 'Screen', model: 'screen_id', options: [{ label: 'Large', value: 'lg' }, { label: 'Medium', value: 'md' }, { label: 'Small', value: 'sm' }] },
+            { label: 'Device', model: 'device_id', multiple: true, options: [{ label: 'Samsung', value: 10 }, { label: 'Sony', value: 20 }] }
           ]
         },
         {
           label: 'Orders',
           icon: 'shopping_cart',
           filters: [
-            { label: 'Client', model: 'client_ids', multiple: true, options: ['John Doe', 'fobar'] },
+            { label: 'Client', model: 'client_ids', multiple: true, options: ['John Doe', 'foobar'] },
             { label: 'Status', model: 'status', options: ['delivered', 'purchased'] }
           ]
         }
