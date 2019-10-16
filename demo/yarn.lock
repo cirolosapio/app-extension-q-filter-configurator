@@ -6906,13 +6906,12 @@ qs@~6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 "quasar-app-extension-q-filter-configurator@link:..":
-  version "0.0.0"
-  uid ""
+  version "0.0.1"
 
-quasar@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.1.4.tgz#7323c713a2f3f7b2085632cbce50b1246fe37551"
-  integrity sha512-A6SI9vQNFBQ10DjAeSAVtvARbdyZ5uHE5ecGTreMCuKULehWnsJEsRmohM3GU4SttINesONCN99D3Lek10nwRA==
+quasar@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.2.2.tgz#9a64bb35814833c36a2585b86c5b84d862064510"
+  integrity sha512-aBeFvd/UGQfEdZM5Kd2z3qV/LXfetWL3gOJL6wnLdqhjFkOvaecc8r9HV6EKPt/pFiL1rlpwTOkQ2ARNTuYJJw==
 
 query-string@^4.1.0:
   version "4.3.4"
