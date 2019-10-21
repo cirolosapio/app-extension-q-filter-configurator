@@ -894,10 +894,10 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/app@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.2.1.tgz#2cc23ed9230106ffc1605cc01de43395bff21405"
-  integrity sha512-cJaq56iTrIf0n1jjov2IRGCkjEA66iq+gPF7y1UAHr38s699pNPLugblvdqoFAa20ogDw/VtlrHOuQBcHoZSqQ==
+"@quasar/app@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.2.2.tgz#ded118f5329b7c8fd1245898a409be1b0802c7e3"
+  integrity sha512-Z/l2j9EL6xXiO5eLTMPYcoHDSRf9gd+TC0F+2piJcG1OSEil51aeMWlvZBoxN4jz2Gm5ZiUwmq8mwttlzEeQMg==
   dependencies:
     "@quasar/babel-preset-app" "1.1.6"
     "@quasar/fastclick" "1.1.4"
@@ -7455,7 +7455,7 @@ schema-utils@^2.0.0, schema-utils@^2.1.0:
     ajv "^6.10.2"
     ajv-keywords "^3.4.1"
 
-schema-utils@^2.4.1:
+schema-utils@^2.2.0, schema-utils@^2.4.1:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.5.0.tgz#8f254f618d402cc80257486213c8970edfd7c22f"
   integrity sha512-32ISrwW2scPXHUSusP8qMg5dLUawKkyV+/qIEV9JdXKx+rsM6mi8vZY8khg2M69Qom16rtroWXD3Ybtiws38gQ==
