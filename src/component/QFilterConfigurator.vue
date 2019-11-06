@@ -4,7 +4,8 @@
       <q-menu cover anchor="top left" ref="menu">
         <div class="row" :style="{ minWidth }">
           <div class="col">
-            <q-tabs dense no-caps v-model="category" vertical inline-label switch-indicator :active-color="color" active-bg-color="grey-2">
+            <q-tabs dense no-caps v-model="category" vertical inline-label switch-indicator :active-color="color"
+              :active-bg-color="$q.dark.isActive ? 'grey-9' : 'grey-2'">
               <q-tab v-for="({ label, icon }, indexC) in validCategories"
                 :key="`category-${indexC}`"
                 :name="indexC"
@@ -27,7 +28,7 @@
             <q-list dense>
               <q-scroll-area style="height: 250px">
                 <q-expansion-item v-for="({ model, multiple, label, options }, indexF) in validFilters(validCategories[category].filters)" :default-opened="indexF === 0"
-                  :header-class="{ [`text-${color} bg-grey-1`]: isSetted({ model, multiple }), 'q-px-sm': true }" dense-toggle dense :key="`filter-${model}`" expand-icon-class="custom-toggle">
+                  :header-class="{ [`text-${color} ${$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'}`]: isSetted({ model, multiple }), 'q-px-sm': true }" dense-toggle dense :key="`filter-${model}`" expand-icon-class="custom-toggle">
 
                   <template #header>
                     <q-item-section>{{label}}</q-item-section>
@@ -149,7 +150,6 @@ export default {
     },
     ignore: {
       type: Array,
-      validation: arr => Array.isArray(arr),
       default: () => []
     },
     maxDisplay: {
@@ -308,5 +308,5 @@ export default {
       padding-left 4px !important
   .custom-chip
     height 26px
-    padding 2px 8px
+    padding 2px 14px 2px 8px
 </style>
