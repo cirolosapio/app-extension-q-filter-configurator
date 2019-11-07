@@ -101,7 +101,8 @@ export default {
 
       filter: {
         custom_filter: 'some filter',
-        city_id: [10]
+        city_id: [10],
+        region_flag: 'Italy'
       },
 
       categories: [
@@ -128,7 +129,8 @@ export default {
           icon: 'navigation',
           filters: [
             { label: 'Nation', model: 'region_flag', options: ['Italy', 'Los Angeles'] },
-            { label: 'City', model: 'city_id', multiple: true, options: [{ label: 'California', value: 10 }, { label: 'Naples', value: 20 }] }
+            { label: 'City', model: 'city_id', multiple: true, options: [{ label: 'California', value: 10 }, { label: 'Naples', value: 20 }] },
+            { label: 'Radius', model: 'radius', range: { min: 10, max: 200 } }
           ]
         },
         {
@@ -174,10 +176,10 @@ export default {
     nodes () {
       return this.categories.map(({ filters, ...cat }) => ({
         ...cat,
-        children: filters.map(({ multiple, options, ...filter }) => ({
+        children: filters.map(({ multiple, range, options, ...filter }) => ({
           ...filter,
-          icon: multiple ? 'mdi-checkbox-multiple-marked-outline' : 'mdi-check-box-outline'
-          // children: options.map(opt => ({ label: opt.label ? opt.label : opt, value: opt.value ? opt.value : opt }))
+          icon: multiple ? 'mdi-checkbox-multiple-marked-outline' : (range ? 'touch_app' : 'mdi-check-box-outline')
+          // children: options ? options.map(opt => ({ label: opt.label ? opt.label : opt, value: opt.value ? opt.value : opt })) : null
         }))
       }))
     },

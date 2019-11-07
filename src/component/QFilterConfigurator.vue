@@ -56,6 +56,23 @@
                   </q-item>
                   <q-item-label caption class="q-px-md q-py-sm" v-if="filteredOptions(options).length === 0">{{$q.lang.table.noResults}}</q-item-label>
                 </q-expansion-item>
+
+                <q-expansion-item v-for="{ model, label } in rangeFilters(validCategories[category].filters)" dense-toggle dense
+                  :header-class="{ [`text-${color} ${$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'}`]: isSetted({ model, range: true }), 'q-px-sm': true }" :key="`filter-${model}`" expand-icon-class="custom-toggle">
+
+                  <template #header>
+                    <q-item-section>{{label}}</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="touch_app" />
+                    </q-item-section>
+                  </template>
+
+                  <q-item>
+                    <q-item-section>
+                      <q-range :color="color" v-model="myModel[model]" label />
+                    </q-item-section>
+                  </q-item>
+                </q-expansion-item>
               </q-scroll-area>
               <q-separator />
               <q-item-label caption class="custom-header ellipsis">{{validCategories[category].filters.length}} {{propertiesLabel}}</q-item-label>
@@ -65,14 +82,11 @@
           <q-separator vertical style="width: 2px" />
 
           <div class="col">
+            <q-item-label header class="custom-header">
+              {{$q.lang.table.selectedRecords(filtersCount)}}
+            </q-item-label>
+            <q-separator />
             <q-list dense>
-              <q-item-label header class="custom-header">
-                {{$q.lang.table.selectedRecords(filtersCount)}}
-                <!-- <template v-if="filtersCount > 1">{{filtersCount}} filtri selezionati</template>
-                <template v-else-if="filtersCount === 1">{{filtersCount}} filtro selezionato</template>
-                <template v-else>Nessun filtro selezionato</template> -->
-              </q-item-label>
-              <q-separator />
               <q-scroll-area style="height: 281px">
                 <div v-for="([filter, values], index) in settedValues" :key="`result-filter-${index}`">
                   <template v-if="Array.isArray(values)">
@@ -92,6 +106,20 @@
                         <q-icon name="cancel" class="cursor-pointer" @click="removeOption(filter, val)"/>
                       </q-item-section>
                     </q-item>
+                    <q-separator />
+                  </template>
+
+                  <template v-else-if="!!getFilter(filter).range">
+                    <q-item-label header class="q-px-sm q-py-xs">{{getFilter(filter).label}}</q-item-label>
+                    <q-item dense class="q-pl-sm q-pr-md">
+                      <q-item-section>
+                        <q-item-label class="q-pl-xs">{{values.min}} - {{values.max}}</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-icon name="cancel" class="cursor-pointer" @click="$set(myModel, filter, { min: null, max: null })" />
+                      </q-item-section>
+                    </q-item>
+                    <q-separator />
                   </template>
 
                   <template v-else>
@@ -104,6 +132,7 @@
                         <q-icon name="cancel" class="cursor-pointer" @click="$set(myModel, filter, null)" />
                       </q-item-section>
                     </q-item>
+                    <q-separator />
                   </template>
                 </div>
               </q-scroll-area>
@@ -125,6 +154,9 @@
       <template v-if="Array.isArray(values)">
         {{getFilter(filter).label}} = {{getAllOptionLabels(filter, values, values.length > maxDisplay)}}
         <q-tooltip v-if="values.length > maxDisplay" content-class="q-py-xs q-px-sm text-caption">{{getAllOptionLabels(filter, values, false)}}</q-tooltip>
+      </template>
+      <template v-else-if="!!getFilter(filter).range">
+        {{getFilter(filter).label}} = {{values.min}} - {{values.max}}
       </template>
       <template v-else>
         {{getFilter(filter).label}} = {{getOption(filter, values).label}}
@@ -211,8 +243,11 @@ export default {
     validFilters () {
       return filters => filters.filter(({ options, model }) =>
         !this.ignore.includes(model) &&
-        this.validOptions(options).length > 0
+        options ? this.validOptions(options).length > 0 : false
       )
+    },
+    rangeFilters () { // nome dubbio
+      return filters => filters.filter(({ range }) => !!range)
     },
     validOptions () {
       return opts => opts[0] && opts[0].label ? opts : opts.map(label => ({ label, value: label }))
@@ -230,11 +265,23 @@ export default {
     },
 
     isSetted () {
-      return ({ model, multiple }) => multiple ? this.myModel[model].length > 0 : !!this.myModel[model]
+      return ({ model, multiple, range }) => multiple
+        ? this.myModel[model].length > 0
+        : (
+          range
+            ? (!!this.myModel[model].min || this.myModel[model].min === 0) && !!this.myModel[model].max
+            : !!this.myModel[model]
+        )
     },
     settedValues () {
       return Object.entries(this.myModel)
-        .filter(([key, value]) => Array.isArray(value) ? value.length > 0 : !!value)
+        .filter(([key, value]) => Array.isArray(value)
+          ? value.length > 0
+          : (
+            !!this.getFilter(key).range
+              ? (!!value.min || value.min === 0) && !!value.max
+              : !!value
+          ))
     },
     filtersCount () {
       return this.settedValues.length
@@ -259,16 +306,21 @@ export default {
   methods: {
     initMyModel () {
       this.validCategories.forEach(({ filters }) => {
-        filters.forEach(({ model, multiple }) => {
+        filters.forEach(({ model, multiple, range }) => {
           if (multiple) this.$set(this.myModel, model, this.value[model] || [])
+          else if (range) this.$set(this.myModel, model, {
+            min: !!this.value[model] ? this.value[model].min : null,
+            max: !!this.value[model] ? this.value[model].max : null
+          })
           else this.$set(this.myModel, model, this.value[model] || null)
         })
       })
     },
     resetMyModel () {
       this.validCategories.forEach(({ filters }) => {
-        filters.forEach(({ model, multiple }) => {
+        filters.forEach(({ model, multiple, range }) => {
           if (multiple) this.$set(this.myModel, model, [])
+          else if (range) this.$set(this.myModel, model, { min: null, max: null })
           else this.$set(this.myModel, model, null)
         })
       })
@@ -279,6 +331,7 @@ export default {
     },
     removeFilter (key, value) {
       if (Array.isArray(value)) this.$set(this.myModel, key, [])
+      else if (this.getFilter(key).range) this.$set(this.myModel, key, { min: null, max: null })
       else this.$set(this.myModel, key, null)
       this.$delete(this.value, key)
     },
