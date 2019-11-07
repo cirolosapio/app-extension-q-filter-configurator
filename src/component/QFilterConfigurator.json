@@ -61,6 +61,12 @@
       "desc": "Default 'properties' label",
       "default": "properties",
       "category": "content"
+    },
+    "selectedsLabel": {
+      "type": [ "String" ],
+      "desc": "Default 'selecteds' label",
+      "default": "selecteds",
+      "category": "content"
     }
   },
   "events": {

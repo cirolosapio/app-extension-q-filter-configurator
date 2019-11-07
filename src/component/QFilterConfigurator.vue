@@ -184,7 +184,8 @@ export default {
     },
     maxDisplay: {
       type: [Number, String],
-      default: () => 5
+      default: () => 5,
+      validation: val => val > 1
     },
 
     reverse: Boolean,

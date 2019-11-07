@@ -64,7 +64,9 @@
           </q-item>
           <q-item>
             <q-item-section>
-              <q-input dense :color="color" borderless v-model="maxDisplay" label="maxDisplay" type="number" />
+              <q-input hide-bottom-space dense :color="color" borderless v-model="maxDisplay" label="maxDisplay" type="number" :rules="[
+                val => val > 1 || 'Number must be positive and > 1'
+              ]" />
             </q-item-section>
           </q-item>
           <q-item>
