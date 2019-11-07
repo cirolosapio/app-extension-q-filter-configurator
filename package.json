@@ -1,6 +1,6 @@
 {
   "name": "quasar-app-extension-q-filter-configurator",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "QFilterConfigurator - Quasar App Extension",
   "author": "lscorion <lscorionjs@gmail.com>",
   "license": "MIT",
