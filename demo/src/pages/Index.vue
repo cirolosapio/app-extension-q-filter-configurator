@@ -178,8 +178,8 @@ export default {
         ...cat,
         children: filters.map(({ multiple, range, options, ...filter }) => ({
           ...filter,
-          icon: multiple ? 'mdi-checkbox-multiple-marked-outline' : (range ? 'touch_app' : 'mdi-check-box-outline'),
-          children: options ? options.map(opt => ({ label: opt.label ? opt.label : opt, value: opt.value ? opt.value : opt })) : null
+          icon: multiple ? 'mdi-checkbox-multiple-marked-outline' : (range ? 'touch_app' : 'mdi-check-box-outline')
+          // children: options ? options.map(opt => ({ label: opt.label ? opt.label : opt, value: opt.value ? opt.value : opt })) : null
         }))
       }))
     },
