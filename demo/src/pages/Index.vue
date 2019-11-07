@@ -160,8 +160,8 @@ export default {
   },
 
   created () {
-    this.langOptions = languages.map(lang => ({
-      label: lang.nativeName, value: lang.isoName
+    this.langOptions = languages.map(({ isoName, nativeName }) => ({
+      label: nativeName, value: isoName
     }))
   },
 
