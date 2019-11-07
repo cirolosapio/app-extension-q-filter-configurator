@@ -14,14 +14,14 @@ module.exports = function (ctx) {
 
     extras: [
       // 'ionicons-v4',
-      'mdi-v3',
       // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
+      'mdi-v4'
     ],
 
     framework: {
@@ -73,11 +73,8 @@ module.exports = function (ctx) {
       open: true,
       watchOptions: {
         ignored: [
-          'node_modules'
-
-          // be sure to change <myextid> below to
-          // your App Extension name:
-          // '!node_modules/quasar-app-extension-q-filter-configurator'
+          'node_modules',
+          '!node_modules/quasar-app-extension-q-filter-configurator/src'
         ]
       }
     },

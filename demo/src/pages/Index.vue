@@ -6,57 +6,75 @@
       :reverse="reverse"
       :btnLabel="btnLabel"
       :propertiesLabel="propertiesLabel"
+      :selectedsLabel="selectedsLabel"
       :maxDisplay="maxDisplay"
       :color="color"
       :ignore="ignore"
     />
 
-    <q-badge :color="color">model: {{filter}}</q-badge>
+    <q-badge :color="color" class="q-my-sm">model: {{filter}}</q-badge>
 
-    <q-list dense separator bordered style="max-wdith: 500px" class="q-my-md rounded-borders">
-      <q-item-label header>Playground</q-item-label>
-      <q-item>
-        <q-item-section>
-          <q-select dense :color="color" borderless options-dense :options="colors" v-model="color" label="Color" :options-selected-class="`text-${color}`" />
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-select v-model="locale" :options="langOptions" label="Quasar Language" dense borderless emit-value map-options options-dense />
-        </q-item-section>
-      </q-item>
-      <q-item tag="label">
-        <q-item-section>
-          <q-item-label>Reverse direction</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-checkbox :color="color" v-model="reverse" />
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-input dense :color="color" borderless v-model="btnLabel" label="Button label" />
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-input dense :color="color" borderless v-model="propertiesLabel" label="Label: properties" />
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-input dense :color="color" borderless v-model="maxDisplay" label="maxDisplay" type="number" />
-        </q-item-section>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-select dense :color="color" borderless options-dense :options="filters" multiple v-model="ignore" label="Ignored filters" :options-selected-class="`text-${color}`" />
-        </q-item-section>
-      </q-item>
-    </q-list>
-
-    <q-item-label header>Categories</q-item-label>
-    <q-tree :nodes="nodes" node-key="label" />
+    <div class="row q-mt-md">
+      <div class="col-3">
+        <q-item-label header>Categories</q-item-label>
+        <q-tree :nodes="nodes" node-key="label" default-expand-all>
+          <template #default-header="{ node: { label, icon, model } }">
+            <div :class="{ 'row items-center': true, 'text-primary': isSelected(model) }">
+              <q-icon :name="icon" left />
+              <div>{{ label }}</div>
+            </div>
+          </template>
+        </q-tree>
+      </div>
+      <div class="col-5">
+        <q-item-label header>Playground</q-item-label>
+        <q-list dense separator bordered class="rounded-borders">
+          <q-item>
+            <q-item-section>
+              <q-select dense :color="color" borderless options-dense :options="colors" v-model="color" label="Color" :options-selected-class="`text-${color}`" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-select v-model="locale" :options="langOptions" label="Quasar Language" dense borderless emit-value map-options options-dense />
+            </q-item-section>
+          </q-item>
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>Reverse direction</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-checkbox :color="color" v-model="reverse" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-input dense :color="color" borderless v-model="btnLabel" label="Button label" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-input dense :color="color" borderless v-model="propertiesLabel" label="Label: properties" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-input dense :color="color" borderless v-model="selectedsLabel" label="Label: selecteds" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-input dense :color="color" borderless v-model="maxDisplay" label="maxDisplay" type="number" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-select dense :color="color" borderless options-dense :options="filters" multiple v-model="ignore" label="Ignored filters" :options-selected-class="`text-${color}`" />
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -65,10 +83,8 @@
 
 <script>
 import languages from 'quasar/lang/index.json'
-import { QBadge, QSelect, QCheckbox, QInput, QTree } from 'quasar'
 export default {
   name: 'PageIndex',
-  components: { QBadge, QSelect, QCheckbox, QInput, QTree },
 
   data () {
     return {
@@ -78,6 +94,7 @@ export default {
       color: 'blue',
       btnLabel: 'add filter',
       propertiesLabel: 'properties',
+      selectedsLabel: 'selecteds',
       ignore: ['custom_filter'],
       colors: ['blue', 'green', 'purple', 'orange', 'red', 'brown', 'blue-grey', 'teal', 'amber', 'yellow', 'cyan', 'black', 'grey'],
       langOptions: [],
@@ -159,10 +176,13 @@ export default {
         ...cat,
         children: filters.map(({ multiple, options, ...filter }) => ({
           ...filter,
-          icon: multiple ? 'mdi-checkbox-multiple-marked-outline' : 'mdi-check-box-outline',
-          children: options.map(opt => ({ label: opt.label ? opt.label : opt, value: opt.value ? opt.value : opt }))
+          icon: multiple ? 'mdi-checkbox-multiple-marked-outline' : 'mdi-check-box-outline'
+          // children: options.map(opt => ({ label: opt.label ? opt.label : opt, value: opt.value ? opt.value : opt }))
         }))
       }))
+    },
+    isSelected () {
+      return model => Object.entries(this.filter).map(([key]) => key).includes(model)
     }
   },
 

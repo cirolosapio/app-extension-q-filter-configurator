@@ -1,7 +1,7 @@
 <template>
   <div class="row q-gutter-y-xs" :class="{ reverse }">
-    <q-btn rounded no-caps unelevated :color="color + '-1'" :text-color="color" :label="btnLabel" icon-right="add" class="dashed-border custom-button">
-      <q-menu cover anchor="top left" ref="menu">
+    <q-btn rounded no-caps unelevated :color="$q.dark.isActive ? 'grey-9' : color + '-1'" :text-color="color" :label="btnLabel" icon-right="add" class="dashed-border custom-button">
+      <q-menu cover anchor="top left" ref="menu" @before-show="initMyModel()">
         <div class="row" :style="{ minWidth }">
           <div class="col">
             <q-tabs dense no-caps v-model="category" vertical inline-label switch-indicator :active-color="color"
@@ -120,8 +120,8 @@
       </q-menu>
     </q-btn>
 
-    <q-chip v-for="(values, filter) in removableFilters" :key="`chip-${filter}`" :color="color + '-1'" :text-color="color" class="custom-chip" :dense="Object.keys(value).length > 5"
-      removable @remove="removeFilter(filter, values)">
+    <q-chip v-for="(values, filter) in removableFilters" :key="`chip-${filter}`" :color="$q.dark.isActive ? 'grey-10' : color + '-1'" :text-color="color"
+      class="custom-chip" :dense="Object.keys(value).length > 5" removable @remove="removeFilter(filter, values)">
       <template v-if="Array.isArray(values)">
         {{getFilter(filter).label}} = {{getAllOptionLabels(filter, values, values.length > maxDisplay)}}
         <q-tooltip v-if="values.length > maxDisplay" content-class="q-py-xs q-px-sm text-caption">{{getAllOptionLabels(filter, values, false)}}</q-tooltip>
@@ -134,10 +134,8 @@
 </template>
 
 <script>
-import { QMenu, QTabs, QTab, QSeparator, QCardActions, QInput, QCheckbox, QRadio, QExpansionItem, QScrollArea, QChip, QTooltip } from 'quasar'
 export default {
   name: 'QFilterConfigurator',
-  components: { QMenu, QTabs, QTab, QSeparator, QCardActions, QInput, QCheckbox, QRadio, QExpansionItem, QScrollArea, QChip, QTooltip },
   props: {
     value: {
       type: Object,
@@ -174,6 +172,10 @@ export default {
     propertiesLabel: {
       type: String,
       default: () => 'properties'
+    },
+    selectedsLabel: {
+      type: String,
+      default: () => 'selecteds'
     }
   },
 
@@ -196,6 +198,10 @@ export default {
   },
 
   computed: {
+    ignoredValues () {
+      return Object.fromEntries(Object.entries(this.value).filter(([key]) => this.ignore.includes(key)))
+    },
+
     validCategories () {
       return this.categories.filter(({ filters }) => this.validFilters(filters).length > 0)
     },
@@ -245,7 +251,7 @@ export default {
     },
     getAllOptionLabels () {
       return (key, values, dense = false) => dense ?
-        `${values.length} selezionati` :
+        `${values.length} ${this.selectedsLabel}` :
         this.validOptions(this.getFilter(key).options).filter(({ value }) => values.includes(value)).map(({ label }) => label).join(', ')
     }
   },
@@ -282,7 +288,7 @@ export default {
       })
     },
     ok () {
-      this.$emit('input', { ...this.value, ...Object.fromEntries(this.settedValues) })
+      this.$emit('input', { ...this.ignoredValues, ...Object.fromEntries(this.settedValues) })
     }
   }
 }
