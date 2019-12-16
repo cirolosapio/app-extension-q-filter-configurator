@@ -15,7 +15,7 @@
     <q-badge :color="color" class="q-my-sm">model: {{filter}}</q-badge>
 
     <div class="row q-mt-md">
-      <div class="col-3">
+      <div class="col-4">
         <q-item-label header>Categories</q-item-label>
         <q-tree :nodes="nodes" node-key="label" default-expand-all>
           <template #default-header="{ node: { label, icon, model } }">
