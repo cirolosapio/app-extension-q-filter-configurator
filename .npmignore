@@ -1,7 +1,9 @@
 demo
 docs
+_redirects
 .git
 .editorconfig
 .eslintrc.js
 .eslintignore
-yarn.lock
+package-lock.json
+/src/component/QFilterConfigurator.json
