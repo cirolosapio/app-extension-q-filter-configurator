@@ -1,17 +1,11 @@
 <template>
   <div class="row q-gutter-y-xs" :class="{ reverse }">
-    <q-btn rounded no-caps unelevated :color="$q.dark.isActive ? 'grey-9' : color + '-1'" :text-color="color" :label="btnLabel" icon-right="add" class="dashed-border custom-button">
+    <q-btn rounded no-caps unelevated :color="$q.dark.isActive ? 'grey-9' : color + '-1'" :text-color="color" :label="btnLabel" icon-right="add" dense class="dashed-border custom-button q-px-md" size="13px">
       <q-menu cover anchor="top left" ref="menu" @before-show="initMyModel()">
         <div class="row" :style="{ minWidth }">
           <div class="col">
-            <q-tabs dense no-caps v-model="category" vertical inline-label switch-indicator :active-color="color"
-              :active-bg-color="$q.dark.isActive ? 'grey-9' : 'grey-2'">
-              <q-tab v-for="({ label, icon }, indexC) in validCategories"
-                :key="`category-${indexC}`"
-                :name="indexC"
-                :label="label"
-                :icon="icon"
-                class="custom-tab" />
+            <q-tabs dense no-caps v-model="category" vertical inline-label switch-indicator :active-color="color" :active-bg-color="$q.dark.isActive ? 'grey-9' : 'grey-2'">
+              <q-tab v-for="({ label, icon }, indexC) in validCategories" :key="`category-${indexC}`" :name="indexC" :label="label" :icon="icon" class="custom-tab" />
             </q-tabs>
           </div>
 
@@ -27,8 +21,7 @@
             <q-separator />
             <q-list dense>
               <q-scroll-area style="height: 250px">
-                <q-expansion-item v-for="({ model, multiple, label, options }, indexF) in validFilters(validCategories[category].filters)" :default-opened="indexF === 0"
-                  :header-class="{ [`text-${color} ${$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'}`]: isSetted({ model, multiple }), 'q-px-sm': true }" dense-toggle dense :key="`filter-${model}`" expand-icon-class="custom-toggle">
+                <q-expansion-item v-for="({ model, multiple, label, options }, indexF) in validFilters(validCategories[category].filters)" :default-opened="indexF === 0" :header-class="{ [`text-${color} ${$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'}`]: isSetted({ model, multiple }), 'q-px-sm': true }" dense-toggle dense :key="`filter-${model}`" expand-icon-class="custom-toggle">
 
                   <template #header>
                     <q-item-section>{{label}}</q-item-section>
@@ -57,8 +50,7 @@
                   <q-item-label caption class="q-px-md q-py-sm" v-if="filteredOptions(options).length === 0">{{$q.lang.table.noResults}}</q-item-label>
                 </q-expansion-item>
 
-                <q-expansion-item v-for="{ model, label } in rangeFilters(validCategories[category].filters)" dense-toggle dense
-                  :header-class="{ [`text-${color} ${$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'}`]: isSetted({ model, range: true }), 'q-px-sm': true }" :key="`filter-${model}`" expand-icon-class="custom-toggle">
+                <q-expansion-item v-for="{ model, label } in rangeFilters(validCategories[category].filters)" dense-toggle dense :header-class="{ [`text-${color} ${$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'}`]: isSetted({ model, range: true }), 'q-px-sm': true }" :key="`filter-${model}`" expand-icon-class="custom-toggle">
 
                   <template #header>
                     <q-item-section>{{label}}</q-item-section>
@@ -95,7 +87,7 @@
                         <q-item-label header class="q-pa-none">{{getFilter(filter).label}}</q-item-label>
                       </q-item-section>
                       <q-item-section side v-if="values.length > 1">
-                        <q-btn dense flat rounded icon-right="cancel" :color="color" :label="values.length" class="q-pl-sm" @click="$set(myModel, filter, [])"/>
+                        <q-btn dense flat rounded icon-right="cancel" :color="color" :label="values.length" class="q-pl-sm" @click="$set(myModel, filter, [])" />
                       </q-item-section>
                     </q-item>
                     <q-item v-for="(val, index) in values" :key="`result-${filter}-option-${index}`" dense class="q-pl-sm q-pr-md">
@@ -103,7 +95,7 @@
                         <q-item-label class="q-pa-none q-pl-xs">{{getOption(filter, val).label}}</q-item-label>
                       </q-item-section>
                       <q-item-section side>
-                        <q-icon name="cancel" class="cursor-pointer" @click="removeOption(filter, val)"/>
+                        <q-icon name="cancel" class="cursor-pointer" @click="removeOption(filter, val)" />
                       </q-item-section>
                     </q-item>
                     <q-separator />
@@ -149,8 +141,7 @@
       </q-menu>
     </q-btn>
 
-    <q-chip v-for="(values, filter) in removableFilters" :key="`chip-${filter}`" :color="$q.dark.isActive ? 'grey-10' : color + '-1'" :text-color="color"
-      class="custom-chip" :dense="Object.keys(value).length > 5" removable @remove="removeFilter(filter, values)">
+    <q-chip v-for="(values, filter) in removableFilters" :key="`chip-${filter}`" :color="$q.dark.isActive ? 'grey-10' : color + '-1'" :text-color="color" class="custom-chip" :dense="Object.keys(value).length > 5" removable @remove="removeFilter(filter, values)">
       <template v-if="Array.isArray(values)">
         {{getFilter(filter).label}} = {{getAllOptionLabels(filter, values, values.length > maxDisplay)}}
         <q-tooltip v-if="values.length > maxDisplay" content-class="q-py-xs q-px-sm text-caption">{{getAllOptionLabels(filter, values, false)}}</q-tooltip>
@@ -244,7 +235,7 @@ export default {
     validFilters () {
       return filters => filters.filter(({ options, model }) =>
         !this.ignore.includes(model) &&
-        options ? this.validOptions(options).length > 0 : false
+          options ? this.validOptions(options).length > 0 : false
       )
     },
     rangeFilters () { // nome dubbio
@@ -349,24 +340,26 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .dashed-border
-    border 1px dashed
-  .custom-button
-    font-weight 400
-    font-size 14px
-    min-height 26px
-    height 26px
-    padding 0px 10px
-  .custom-tab
-    justify-content flex-start !important
-  .custom-input
-    height 33px
-  .custom-header
-    padding 8px 16px
-  .q-expansion-item >>>
-    .custom-toggle
-      padding-left 4px !important
-  .custom-chip
-    height 26px
-    padding 2px 14px 2px 8px
+.dashed-border
+  border 1px dashed
+
+.custom-button
+  font-weight 400
+
+.custom-tab
+  justify-content flex-start !important
+
+.custom-input
+  height 33px
+
+.custom-header
+  padding 8px 16px
+
+.q-expansion-item >>>
+  .custom-toggle
+    padding-left 4px !important
+
+.custom-chip
+  height 26px
+  padding 2px 14px 2px 8px
 </style>
