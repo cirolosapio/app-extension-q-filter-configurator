@@ -939,10 +939,10 @@
     babel-plugin-module-resolver "^3.2.0"
     babel-plugin-transform-imports "^1.0.0"
 
-"@quasar/extras@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.5.0.tgz#68ac3aa5056634f90ba5a4e58c584793d15b4997"
-  integrity sha512-SE1npMOvXGSEI1nWnEd2/EQswkM2QAiZ2K1WSPMOeqZtDvc29uLqv5A9mecWPLxVN/bSpLiX65j+ZYilY6KNHQ==
+"@quasar/extras@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.5.2.tgz#12fb0aa0f150cc749670d2b3198f712a10c344b2"
+  integrity sha512-4hwibnTNHM0OmZl6T3PN6CaHnVOmsCWpNwgFhJS0zMfsQ2z2s1OxObOFVDSSBuPT+sRk3iakhMLRaohNze0HYA==
 
 "@quasar/fastclick@1.1.4":
   version "1.1.4"
@@ -6944,8 +6944,7 @@ qs@~6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 "quasar-app-extension-q-filter-configurator@link:..":
-  version "0.0.0"
-  uid ""
+  version "0.0.6"
 
 quasar@^1.7.4:
   version "1.7.4"
