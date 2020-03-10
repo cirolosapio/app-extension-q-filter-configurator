@@ -13,7 +13,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.5.0",
+    "@quasar/extras": "^1.6.0",
     "quasar": "^1.7.4"
   },
   "devDependencies": {
