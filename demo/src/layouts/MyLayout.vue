@@ -2,18 +2,18 @@
   <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" icon="menu" />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="leftDrawerOpen = !leftDrawerOpen" />
 
         <q-toolbar-title>
           QFilterConfigurator
         </q-toolbar-title>
 
-        <q-btn flat round @click="$q.dark.set(!$q.dark.isActive)" icon="invert_colors" />
+        <q-btn flat round icon="invert_colors" @click="$q.dark.set(!$q.dark.isActive)" />
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" bordered :content-class="$q.dark.isActive ? '' : 'bg-grey-2'">
+    <q-drawer bordered :content-class="$q.dark.isActive ? '' : 'bg-grey-2'" v-model="leftDrawerOpen">
       <q-item-label header>Menu</q-item-label>
       <q-list>
         <q-expansion-item group="links" expand-separator default-opened icon="mdi-github-circle" label="Other App Extensions" caption="@heartbeatLV" dark header-class="bg-teal">
