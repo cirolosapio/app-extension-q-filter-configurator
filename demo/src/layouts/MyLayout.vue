@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <q-header elevated>
+    <q-header :elevated="!$q.dark.isActive" :bordered="$q.dark.isActive" :class="{ 'bg-dark': $q.dark.isActive }">
       <q-toolbar>
         <q-btn flat dense round aria-label="Menu" icon="menu" @click="leftDrawerOpen = !leftDrawerOpen" />
 
@@ -112,6 +112,10 @@ export default {
       leftDrawerOpen: this.$q.platform.is.desktop
     }
   },
+  created () {
+    this.$q.dark.set('auto')
+  },
+
   methods: {
     openURL
   }

@@ -1,6 +1,6 @@
 {
   "name": "quasar-app-extension-q-filter-configurator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "QFilterConfigurator - Quasar App Extension",
   "author": "heartbeatLV <lscorionjs@gmail.com>",
   "license": "MIT",
@@ -32,7 +32,16 @@
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.3",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-quasar": "^1.0.0",
+    "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.2"
+  },
+  "resolutions": {
+    "@babel/parser": "7.7.5"
   }
 }

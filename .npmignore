@@ -5,6 +5,9 @@ _redirects
 .editorconfig
 .eslintrc.js
 .eslintignore
-package-lock.json
+.stylintrc
+.postcssrc
+babel.config.js
+package-lock.jso
 yarn.lock
 /src/component/QFilterConfigurator.json
