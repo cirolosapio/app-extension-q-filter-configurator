@@ -1,8 +1,6 @@
 Quasar App Extension - QFilterConfigurator (q-filter-configurator)
 ===
 
-> Please note that QFilterConfigurator is in alpha state.
-
 QFilterConfigurator is an `UI App Extension` for [Quasar Framework v1](https://quasar.dev/). It will not work with legacy versions of Quasar Framework.
 
 This work is currently in `alpha` and there are expected changes while things get worked out. Your help with testing is greatly appreciated.

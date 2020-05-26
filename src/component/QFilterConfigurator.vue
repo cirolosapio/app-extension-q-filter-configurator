@@ -177,7 +177,7 @@ export default {
       default: () => []
     },
     maxDisplay: {
-      type: Number,
+      type: [Number, String],
       default: () => 5,
       validation: val => val > 1
     },
