@@ -1,15 +1,14 @@
 {
   "name": "quasar-app-extension-q-filter-configurator",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "QFilterConfigurator - Quasar App Extension",
-  "author": "lscorion <lscorionjs@gmail.com>",
+  "author": "heartbeatLV <lscorionjs@gmail.com>",
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "lint-fix": "eslint --ext .js,.vue src --fix",
-    "build-demo": "cd ./demo && yarn build && cd .. && cp ./_redirects ./demo/dist/spa && rm -r -f ./docs && cp -r ./demo/dist/spa/. ./docs",
-    "test": "echo \"No test specified\" && exit 0"
+    "build-demo": "cd ./demo && yarn build && cd .. && cp ./_redirects ./demo/dist/spa && rm -r -f ./docs && cp -r ./demo/dist/spa/. ./docs"
   },
   "repository": {
     "type": "git",
@@ -36,5 +35,8 @@
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0"
+  },
+  "resolutions": {
+    "@babel/parser": "7.7.5"
   }
 }

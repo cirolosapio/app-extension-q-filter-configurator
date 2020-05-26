@@ -1,3 +1,7 @@
 {
-  "q-filter-configurator": {}
+  "q-filter-configurator": {},
+  "@quasar/qmarkdown": {
+    "import_md": true,
+    "import_vmd": false
+  }
 }
