@@ -35,8 +35,5 @@
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0"
-  },
-  "resolutions": {
-    "@babel/parser": "7.7.5"
   }
 }
