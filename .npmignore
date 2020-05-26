@@ -6,4 +6,5 @@ _redirects
 .eslintrc.js
 .eslintignore
 package-lock.json
+yarn.lock
 /src/component/QFilterConfigurator.json
