@@ -53,6 +53,15 @@
           </q-item>
           <q-item>
             <q-item-section>
+              <q-input v-bind="defaultAttrs" label="Date format" v-model="config.dateFormat">
+                <template #append>
+                  <q-btn flat dense round icon="mdi-open-in-new" @click="openURL('https://quasar.dev/quasar-utils/date-utils#Format-for-display')" />
+                </template>
+              </q-input>
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
               <q-input v-bind="defaultAttrs" clearable label="Custom label for 'filters available'" v-model="config.propertiesLabel" />
             </q-item-section>
           </q-item>
@@ -74,6 +83,7 @@
 
 <script>
 import languages from 'quasar/lang/index.json'
+import { openURL } from 'quasar'
 export default {
   name: 'Index',
   data () {
@@ -97,8 +107,9 @@ export default {
         nodes: [
           {
             label: 'General',
-            icon: 'tune',
+            icon: 'mdi-tune-vertical',
             filters: [
+              { label: 'When', model: 'created', date: true },
               {
                 label: 'Provenience',
                 model: 'provenience_ids',
@@ -115,7 +126,7 @@ export default {
           },
           {
             label: 'Map',
-            icon: 'navigation',
+            icon: 'mdi-navigation',
             filters: [
               { label: 'Nation', model: 'region_flag', options: ['Italy', 'Los Angeles'] },
               { label: 'City', model: 'city_id', multiple: true, options: [{ label: 'California', value: 10 }, { label: 'Naples', value: 20 }] },
@@ -124,7 +135,7 @@ export default {
           },
           {
             label: 'Products',
-            icon: 'local_offer',
+            icon: 'mdi-tag',
             filters: [
               { label: 'Categories', model: 'category_id', multiple: true, options: [{ label: 'Electronic', value: 10 }, { label: 'Phones', value: 20 }] },
               { label: 'Brand', model: 'brand_id', multiple: true, options: [{ label: 'Asus', value: 10 }, { label: 'MSI', value: 20 }] },
@@ -133,7 +144,7 @@ export default {
           },
           {
             label: 'Phone',
-            icon: 'phone',
+            icon: 'mdi-phone',
             filters: [
               { label: 'Screen', model: 'screen_id', options: [{ label: 'Large', value: 'lg' }, { label: 'Medium', value: 'md' }, { label: 'Small', value: 'sm' }] },
               { label: 'Device', model: 'device_id', multiple: true, options: [{ label: 'Samsung', value: 10 }, { label: 'Sony', value: 20 }] },
@@ -142,7 +153,7 @@ export default {
           },
           {
             label: 'Orders',
-            icon: 'shopping_cart',
+            icon: 'mdi-cart',
             filters: [
               { label: 'Client', model: 'client_ids', multiple: true, options: ['John Doe', 'foobar'] },
               { label: 'Status', model: 'status', options: ['delivered', 'purchased'] },
@@ -186,10 +197,13 @@ export default {
         ...node,
         model: node.label,
         selectable: false,
-        children: filters.map(({ multiple, range, options, ...childNode }) => ({
-          ...childNode,
-          icon: multiple ? 'mdi-checkbox-multiple-marked-outline' : (range ? 'touch_app' : 'mdi-check-box-outline')
-        }))
+        children: filters.map(({ multiple, range, date, options, ...childNode }) => {
+          let icon = 'mdi-check-box-outline'
+          if (multiple) icon = 'mdi-checkbox-multiple-marked-outline'
+          else if (date) icon = 'mdi-calendar-blank'
+          else if (range) icon = 'mdi-gesture-tap'
+          return { ...childNode, icon }
+        })
       }))
     },
     isSelected () {
@@ -203,6 +217,10 @@ export default {
         this.$q.lang.set(lang.default)
       })
     }
+  },
+
+  methods: {
+    openURL
   }
 }
 </script>

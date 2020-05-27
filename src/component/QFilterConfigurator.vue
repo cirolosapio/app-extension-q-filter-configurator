@@ -3,7 +3,7 @@
     <div class="col-auto">
       <q-btn v-bind="btnAttrs">
         <q-menu cover anchor="top left" ref="menu" @before-show="initCopy()">
-          <div class="row" style="min-width: 700px">
+          <div class="row" style="min-width: 750px">
             <div class="col">
               <q-tabs v-bind="tabsAttrs" v-model="tab">
                 <q-tab v-bind="{ label, icon, name: idxN, class: 'custom-tab' }" v-for="({ label, icon }, idxN) in validNodes" :key="`tab-${idxN}`" />
@@ -15,13 +15,13 @@
             <div class="col">
               <q-input dense borderless class="q-mx-sm custom-input" clearable :placeholder="$q.lang.label.search" v-model="search">
                 <template #prepend>
-                  <q-icon name="search" />
+                  <q-icon :name="mdiMagnify" />
                 </template>
               </q-input>
               <q-separator />
               <q-list dense>
                 <q-scroll-area style="height: 250px">
-                  <q-expansion-item v-bind="expItemAttrs({ model, multiple, range, idxF })" v-for="({ model, multiple, range, label, options }, idxF) in validFilters(validNodes[tab].filters)" :key="`filter-${model}`">
+                  <q-expansion-item v-bind="expItemAttrs({ model, multiple, range, date, idxF })" v-for="({ model, multiple, range, date, label, options }, idxF) in validFilters(validNodes[tab].filters)" :key="`filter-${model}`">
                     <template #header>
                       <q-item-section>{{ label }}</q-item-section>
                       <template v-if="multiple">
@@ -31,18 +31,30 @@
                           </q-item-label>
                         </q-item-section>
                         <q-item-section side>
-                          <q-icon name="mdi-checkbox-multiple-marked" v-if="validOptions(options).length === copy[model].length" @click.stop="$set(copy, model, [])" />
-                          <q-icon name="mdi-check-box-multiple-outline" v-else @click.stop="selectAllByModel(validOptions(options), model)" />
+                          <q-icon :name="mdiCheckboxMultipleMarked" v-if="validOptions(options).length === copy[model].length" @click.stop="setCopy(model, [])" />
+                          <q-icon :name="mdiCheckBoxMultipleOutline" v-else @click.stop="selectAllByModel(validOptions(options), model)" />
                         </q-item-section>
                       </template>
                       <q-item-section side v-else-if="range">
-                        <q-icon name="touch_app" />
+                        <q-icon :name="mdiGestureTap" />
+                      </q-item-section>
+                      <q-item-section side v-else-if="date">
+                        <q-icon :name="mdiCalendarBlank" />
                       </q-item-section>
                     </template>
 
                     <q-item v-if="range">
                       <q-item-section>
                         <q-range :color="color" label v-bind="range" v-model="copy[model]" />
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item dense class="q-px-xs q-py-none" v-else-if="date">
+                      <q-item-section>
+                        <q-input dense borderless :color="color" type="date" v-model="copy[model].from" />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-input dense borderless :color="color" type="date" v-model="copy[model].to" />
                       </q-item-section>
                     </q-item>
 
@@ -55,11 +67,13 @@
                         <q-item-label>{{ label }}</q-item-label>
                       </q-item-section>
                     </q-item>
-                    <q-item-label caption class="q-px-md q-py-sm" v-if="!range && filteredOptions(options).length === 0">{{ $q.lang.table.noResults }}</q-item-label>
+                    <q-item-label caption class="q-px-md q-py-sm" v-if="!range && !date && filteredOptions(options).length === 0">{{ $q.lang.table.noResults }}</q-item-label>
                   </q-expansion-item>
                 </q-scroll-area>
-                <q-separator />
-                <q-item-label caption class="custom-header ellipsis">{{ validNodes[tab].filters.length }} {{ propertiesLabel }}</q-item-label>
+                <template v-if="propertiesLabel">
+                  <q-separator />
+                  <q-item-label caption class="custom-header ellipsis">{{ validNodes[tab].filters.length }} {{ propertiesLabel }}</q-item-label>
+                </template>
               </q-list>
             </div>
 
@@ -72,14 +86,15 @@
               <q-separator />
               <q-list dense>
                 <q-scroll-area style="height: 281px">
-                  <div v-for="([filter, values], idxV) in settedValues" :key="`result-filter-${idxV}`">
+                  <template v-for="([filter, values], idxV) in settedValues">
                     <template v-if="Array.isArray(values)">
-                      <q-item dense class="q-px-sm">
+                      <q-item dense class="q-px-sm" :key="`result-filter-${idxV}`">
                         <q-item-section>
                           <q-item-label header class="q-pa-none">{{ getFilter(filter).label }}</q-item-label>
                         </q-item-section>
                         <q-item-section side v-if="values.length > 1">
-                          <q-btn dense flat rounded icon-right="cancel" :color="color" :label="values.length" class="q-pl-sm" @click="$set(copy, filter, [])" />
+                          <q-icon :color="color" class="cursor-pointer q-mr-sm" :name="mdiCheckboxMultipleMarked" @click="setCopy(filter, [])" />
+                          <!-- <q-btn flat rounded dense :icon-right="mdiClose" :label="values.length" :color="color" @click="setCopy(filter, [])" /> -->
                         </q-item-section>
                       </q-item>
                       <q-item dense class="q-pl-sm q-pr-md" v-for="(val, index) in values" :key="`result-${filter}-option-${index}`">
@@ -87,38 +102,51 @@
                           <q-item-label class="q-pa-none q-pl-xs">{{ getOption(filter, val).label }}</q-item-label>
                         </q-item-section>
                         <q-item-section side>
-                          <q-icon name="cancel" class="cursor-pointer" @click="removeOption(filter, val)" />
+                          <q-icon :name="mdiClose" class="cursor-pointer" @click="removeOption(filter, val)" />
                         </q-item-section>
                       </q-item>
-                      <q-separator />
+                      <q-separator :key="`result-filter-s-${idxV}`" />
+                    </template>
+
+                    <template v-else-if="!!getFilter(filter).date">
+                      <q-item-label header class="q-px-sm q-py-xs" :key="`result-filter-l-${idxV}`">{{ getFilter(filter).label }}</q-item-label>
+                      <q-item dense class="q-pl-sm q-pr-md" :key="`result-filter-${idxV}`">
+                        <q-item-section>
+                          <q-item-label class="q-pl-xs">{{ values.from | format(dateFormat) }} - {{ values.to | format(dateFormat) }}</q-item-label>
+                        </q-item-section>
+                        <q-item-section side>
+                          <q-icon :name="mdiClose" class="cursor-pointer" @click="setCopy(filter, { from: null, to: null })" />
+                        </q-item-section>
+                      </q-item>
+                      <q-separator :key="`result-filter-s-${idxV}`" />
                     </template>
 
                     <template v-else-if="!!getFilter(filter).range">
-                      <q-item-label header class="q-px-sm q-py-xs">{{ getFilter(filter).label }}</q-item-label>
-                      <q-item dense class="q-pl-sm q-pr-md">
+                      <q-item-label header class="q-px-sm q-py-xs" :key="`result-filter-l-${idxV}`">{{ getFilter(filter).label }}</q-item-label>
+                      <q-item dense class="q-pl-sm q-pr-md" :key="`result-filter-${idxV}`">
                         <q-item-section>
                           <q-item-label class="q-pl-xs">{{ values.min }} - {{ values.max }}</q-item-label>
                         </q-item-section>
                         <q-item-section side>
-                          <q-icon name="cancel" class="cursor-pointer" @click="$set(copy, filter, { min: null, max: null })" />
+                          <q-icon :name="mdiClose" class="cursor-pointer" @click="setCopy(filter, { min: null, max: null })" />
                         </q-item-section>
                       </q-item>
-                      <q-separator />
+                      <q-separator :key="`result-filter-s-${idxV}`" />
                     </template>
 
                     <template v-else>
-                      <q-item-label header class="q-px-sm q-py-xs">{{ getFilter(filter).label }}</q-item-label>
-                      <q-item dense class="q-pl-sm q-pr-md">
+                      <q-item-label header class="q-px-sm q-py-xs" :key="`result-filter-l-${idxV}`">{{ getFilter(filter).label }}</q-item-label>
+                      <q-item dense class="q-pl-sm q-pr-md" :key="`result-filter-${idxV}`">
                         <q-item-section>
                           <q-item-label class="q-pl-xs">{{ getOption(filter, values).label }}</q-item-label>
                         </q-item-section>
                         <q-item-section side>
-                          <q-icon name="cancel" class="cursor-pointer" @click="$set(copy, filter, null)" />
+                          <q-icon :name="mdiClose" class="cursor-pointer" @click="setCopy(filter, null)" />
                         </q-item-section>
                       </q-item>
-                      <q-separator />
+                      <q-separator :key="`result-filter-s-${idxV}`" />
                     </template>
-                  </div>
+                  </template>
                 </q-scroll-area>
               </q-list>
             </div>
@@ -140,6 +168,9 @@
           {{ getFilter(filter).label }} = {{ getAllOptionLabels(filter, values, values.length > maxDisplay) }}
           <q-tooltip content-class="q-py-xs q-px-sm text-caption" v-if="values.length > maxDisplay">{{ getAllOptionLabels(filter, values, false) }}</q-tooltip>
         </template>
+        <template v-else-if="!!getFilter(filter).date">
+          {{ getFilter(filter).label }} = {{ values.from | format(dateFormat) }} - {{ values.to | format(dateFormat) }}
+        </template>
         <template v-else-if="!!getFilter(filter).range">
           {{ getFilter(filter).label }} = {{ values.min }} - {{ values.max }}
         </template>
@@ -152,6 +183,8 @@
 </template>
 
 <script>
+import { mdiPlus, mdiMagnify, mdiClose, mdiGestureTap, mdiCheckboxMultipleMarked, mdiCheckBoxMultipleOutline, mdiCalendarBlank } from '@quasar/extras/mdi-v5'
+import { date } from 'quasar'
 export default {
   name: 'QFilterConfigurator',
   props: {
@@ -176,6 +209,10 @@ export default {
       type: Array,
       default: () => []
     },
+    dateFormat: {
+      type: String,
+      default: () => 'DD/MM/YY'
+    },
     maxDisplay: {
       type: [Number, String],
       default: () => 5,
@@ -184,11 +221,21 @@ export default {
     reverse: Boolean
   },
 
+  filters: {
+    format: (val, format) => date.formatDate(val, format)
+  },
+
   data () {
     return {
       tab: 0,
       search: '',
-      copy: {}
+      copy: {},
+      mdiMagnify,
+      mdiClose,
+      mdiGestureTap,
+      mdiCheckboxMultipleMarked,
+      mdiCheckBoxMultipleOutline,
+      mdiCalendarBlank
     }
   },
 
@@ -205,7 +252,7 @@ export default {
         unelevated: true,
         color: this.$q.dark.isActive ? 'grey-9' : this.color + '-1',
         textColor: this.color,
-        icon: 'add',
+        icon: mdiPlus,
         size: '12px',
         class: 'dashed-border custom-button full-height'
       }
@@ -231,13 +278,14 @@ export default {
       }
     },
     expItemAttrs () {
-      return ({ model, multiple, range, idxF }) => ({
+      return ({ model, multiple, range, date, idxF }) => ({
         dense: true,
         expandIconClass: 'custom-toggle',
         denseToggle: true,
+        expandSeparator: true,
         defaultOpened: idxF === 0,
         headerClass: {
-          [`text-${this.color} ${this.$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'}`]: this.isSetted({ model, multiple, range }),
+          [`text-${this.color} ${this.$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-1'}`]: this.isSetted({ model, multiple, range, date }),
           'q-px-sm': true
         }
       })
@@ -248,15 +296,16 @@ export default {
       return this.nodes.filter(({ filters }) => this.validFilters(filters).length > 0)
     },
     validFilters () {
-      return filters => filters.filter(({ options, model, multiple, range, label }) => {
+      return filters => filters.filter(({ options, model, multiple, range, date, label }) => {
         let isValid = !this.ignore.includes(model)
         if (multiple) isValid = isValid && options ? this.validOptions(options).length > 0 : false
+        if (date) isValid = isValid && (this.search ? this.computeSearch(label) : true)
         if (range) isValid = isValid && (this.search ? this.computeSearch(label) : true)
         return isValid
       })
     },
     validOptions () {
-      return opts => (opts[0] && opts[0].label) ? opts : opts.map(label => ({ label, value: label }))
+      return opts => (opts && opts[0] && opts[0].label) ? opts : opts.map(label => ({ label, value: label }))
     },
 
     // others
@@ -293,32 +342,35 @@ export default {
 
     // controls
     isSetted () {
-      return ({ model, multiple, range }) => multiple
-        ? this.copy[model].length > 0
-        : (
-          range
-            ? (!!this.copy[model].min || this.copy[model].min === 0) && !!this.copy[model].max
-            : !!this.copy[model]
-        )
+      return ({ model, multiple, range, date }) => {
+        if (multiple) return this.copy[model].length > 0
+        else if (date) return !!this.copy[model].from || this.copy[model].to
+        else if (range) return (!!this.copy[model].min || this.copy[model].min === 0) && !!this.copy[model].max
+        else return !!this.copy[model]
+      }
     },
     settedValues () {
       return Object.entries(this.copy)
-        .filter(([key, value]) => Array.isArray(value)
-          ? value.length > 0
-          : (
-            this.getFilter(key).range
-              ? (!!value.min || value.min === 0) && !!value.max
-              : !!value
-          ))
+        .filter(([key, value]) => {
+          if (Array.isArray(value)) return value.length > 0
+          else if (this.getFilter(key).date) return !!value.from || !!value.to
+          else if (this.getFilter(key).range) return (!!value.min || value.min === 0) && !!value.max
+          else return !!value
+        })
     }
   },
 
   methods: {
     initCopy () {
       this.validNodes.forEach(({ filters }) => {
-        filters.forEach(({ model, multiple, range }) => {
+        filters.forEach(({ model, multiple, range, date }) => {
           if (multiple) this.$set(this.copy, model, this.value[model] || [])
-          else if (range) {
+          else if (date) {
+            this.$set(this.copy, model, {
+              from: this.value[model] ? this.value[model].from : null,
+              to: this.value[model] ? this.value[model].to : null
+            })
+          } else if (range) {
             this.$set(this.copy, model, {
               min: this.value[model] ? this.value[model].min : null,
               max: this.value[model] ? this.value[model].max : null
@@ -329,12 +381,16 @@ export default {
     },
     resetCopy () {
       this.validNodes.forEach(({ filters }) => {
-        filters.forEach(({ model, multiple, range }) => {
+        filters.forEach(({ model, multiple, range, date }) => {
           if (multiple) this.$set(this.copy, model, [])
+          else if (date) this.$set(this.copy, model, { from: null, to: null })
           else if (range) this.$set(this.copy, model, { min: null, max: null })
           else this.$set(this.copy, model, null)
         })
       })
+    },
+    setCopy (key, value) {
+      this.$set(this.copy, key, value)
     },
     removeOption (key, val) {
       const index = this.copy[key].findIndex(value => value === val)
@@ -342,6 +398,7 @@ export default {
     },
     removeFilter (key, value) {
       if (Array.isArray(value)) this.$set(this.copy, key, [])
+      else if (this.getFilter(key).date) this.$set(this.copy, key, { from: null, to: null })
       else if (this.getFilter(key).range) this.$set(this.copy, key, { min: null, max: null })
       else this.$set(this.copy, key, null)
       this.$delete(this.value, key)
