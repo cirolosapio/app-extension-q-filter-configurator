@@ -83,6 +83,14 @@
       "desc": "Default 'properties' label",
       "default": "filter(s) available",
       "category": "content"
+    },
+    "dateFormat": {
+      "type": [
+        "String"
+      ],
+      "desc": "Date format for 'date' filters",
+      "default": "DD/MM/YY",
+      "category": "style"
     }
   },
   "events": {

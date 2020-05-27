@@ -94,7 +94,6 @@
                         </q-item-section>
                         <q-item-section side v-if="values.length > 1">
                           <q-icon :color="color" class="cursor-pointer q-mr-sm" :name="mdiCheckboxMultipleMarked" @click="setCopy(filter, [])" />
-                          <!-- <q-btn flat rounded dense :icon-right="mdiClose" :label="values.length" :color="color" @click="setCopy(filter, [])" /> -->
                         </q-item-section>
                       </q-item>
                       <q-item dense class="q-pl-sm q-pr-md" v-for="(val, index) in values" :key="`result-${filter}-option-${index}`">
