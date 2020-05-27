@@ -20,7 +20,7 @@
               </q-input>
               <q-separator />
               <q-list dense>
-                <q-scroll-area style="height: 250px">
+                <q-scroll-area :style="`height: ${propertiesLabel ? 250 : 281}px`">
                   <q-expansion-item v-bind="expItemAttrs({ model, multiple, range, date, idxF })" v-for="({ model, multiple, range, date, label, options }, idxF) in validFilters(validNodes[tab].filters)" :key="`filter-${model}`">
                     <template #header>
                       <q-item-section>{{ label }}</q-item-section>
@@ -152,10 +152,11 @@
           </div>
           <q-separator />
           <q-card-actions align="right">
-            <q-btn no-caps flat dense :label="$q.lang.label.cancel" color="grey-7" @click="$refs.menu.hide()" />
-            <q-btn no-caps flat dense :label="$q.lang.label.refresh" color="secondary" @click="initCopy()" />
-            <q-btn no-caps flat dense :label="$q.lang.label.clear" color="red" @click="resetCopy()" />
-            <q-btn no-caps flat dense :label="$q.lang.label.set" color="primary" @click="emitInput(), $refs.menu.hide()" />
+            <slot name="actions" />
+            <q-btn :no-caps="!uppercase" flat dense :label="$q.lang.label.cancel" color="grey-7" @click="$refs.menu.hide()" />
+            <q-btn :no-caps="!uppercase" flat dense :label="$q.lang.label.refresh" color="secondary" @click="initCopy()" />
+            <q-btn :no-caps="!uppercase" flat dense :label="$q.lang.label.clear" color="red" @click="resetCopy()" />
+            <q-btn :no-caps="!uppercase" flat dense :label="$q.lang.label.set" color="primary" @click="emitInput(), $refs.menu.hide()" />
           </q-card-actions>
         </q-menu>
       </q-btn>
@@ -164,16 +165,32 @@
     <div class="col row" :class="{ reverse }">
       <q-chip v-bind="chipAttrs" v-for="(values, filter) in removableFilters" :key="`chip-${filter}`" @remove="removeFilter(filter, values)">
         <template v-if="Array.isArray(values)">
+          <template v-if="showNodeLabel">
+            <q-icon :name="getNodeFromFilter(filter).icon" v-if="showNodeIcon" />
+            {{ getNodeFromFilter(filter).label }}:
+          </template>
           {{ getFilter(filter).label }} = {{ getAllOptionLabels(filter, values, values.length > maxDisplay) }}
-          <q-tooltip content-class="q-py-xs q-px-sm text-caption" v-if="values.length > maxDisplay">{{ getAllOptionLabels(filter, values, false) }}</q-tooltip>
+          <q-tooltip v-bind="tooltipProps" v-if="values.length > maxDisplay">{{ getAllOptionLabels(filter, values, false) }}</q-tooltip>
         </template>
         <template v-else-if="!!getFilter(filter).date">
+          <template v-if="showNodeLabel">
+            <q-icon :name="getNodeFromFilter(filter).icon" v-if="showNodeIcon" />
+            {{ getNodeFromFilter(filter).label }}:
+          </template>
           {{ getFilter(filter).label }} = {{ values.from | format(dateFormat) }} - {{ values.to | format(dateFormat) }}
         </template>
         <template v-else-if="!!getFilter(filter).range">
+          <template v-if="showNodeLabel">
+            <q-icon :name="getNodeFromFilter(filter).icon" v-if="showNodeIcon" />
+            {{ getNodeFromFilter(filter).label }}:
+          </template>
           {{ getFilter(filter).label }} = {{ values.min }} - {{ values.max }}
         </template>
         <template v-else>
+          <template v-if="showNodeLabel">
+            <q-icon :name="getNodeFromFilter(filter).icon" v-if="showNodeIcon" />
+            {{ getNodeFromFilter(filter).label }}:
+          </template>
           {{ getFilter(filter).label }} = {{ getOption(filter, values).label }}
         </template>
       </q-chip>
@@ -190,10 +207,6 @@ export default {
     value: {
       type: Object,
       required: true
-    },
-    propertiesLabel: {
-      type: String,
-      default: () => 'filter(s) available'
     },
     color: {
       type: String,
@@ -217,7 +230,19 @@ export default {
       default: () => 5,
       validation: val => val > 1
     },
-    reverse: Boolean
+    tooltipProps: {
+      type: Object,
+      default: () => ({
+        transitionShow: 'scale',
+        transitionHide: 'scale',
+        contentClass: 'text-caption'
+      })
+    },
+    propertiesLabel: String,
+    reverse: Boolean,
+    showNodeLabel: Boolean,
+    showNodeIcon: Boolean,
+    uppercase: Boolean
   },
 
   filters: {
@@ -324,6 +349,14 @@ export default {
     },
 
     // getters
+    getNodeFromFilter () {
+      return key => {
+        return this.validNodes.reduce((t, { filters, ...node }) => {
+          if (filters.map(({ model }) => model).includes(key)) t = node
+          return t
+        }, {})
+      }
+    },
     allFilters () {
       return this.validNodes.map(({ filters }) => filters).flat()
     },

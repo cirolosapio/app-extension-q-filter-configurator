@@ -42,6 +42,27 @@
       "desc": "Reverse row",
       "category": "style"
     },
+    "uppercase": {
+      "type": [
+        "Boolean"
+      ],
+      "desc": "Set buttons label to uppercase state",
+      "category": "style"
+    },
+    "showNodeLabel": {
+      "type": [
+        "Boolean"
+      ],
+      "desc": "Prepend chip label with node label",
+      "category": "content"
+    },
+    "showNodeIcon": {
+      "type": [
+        "Boolean"
+      ],
+      "desc": "Prepend node label with node icon (ignored when showNodeLabel is false)",
+      "category": "content"
+    },
     "color": {
       "type": [
         "String"
@@ -76,12 +97,19 @@
       "default": 5,
       "category": "style"
     },
+    "tooltipProps": {
+      "type": [
+        "Object"
+      ],
+      "desc": "Props configuration for tooltip",
+      "default": "{ transitionShow: 'scale', transitionHide: 'scale', contentClass: 'text-caption' }",
+      "category": "style"
+    },
     "propertiesLabel": {
       "type": [
         "String"
       ],
-      "desc": "Default 'properties' label",
-      "default": "filter(s) available",
+      "desc": "Set the  'properties' label",
       "category": "content"
     },
     "dateFormat": {
@@ -91,6 +119,11 @@
       "desc": "Date format for 'date' filters",
       "default": "DD/MM/YY",
       "category": "style"
+    }
+  },
+  "slots": {
+    "actions": {
+      "desc": "Slot for bottom action"
     }
   },
   "events": {

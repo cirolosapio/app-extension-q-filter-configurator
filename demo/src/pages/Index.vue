@@ -1,6 +1,10 @@
 <template>
   <q-page padding>
-    <q-filter-configurator v-bind="config" v-model="model" />
+    <q-filter-configurator v-bind="config" v-model="model">
+      <template #actions>
+        <q-btn label="Save" no-caps flat color="amber" @click="saveConfiguration" />
+      </template>
+    </q-filter-configurator>
 
     <q-badge multi-line :outline="$q.dark.isActive" :color="config.color" class="q-my-sm">model: {{ model }}</q-badge>
 
@@ -51,11 +55,37 @@
               <q-checkbox :color="config.color" v-model="config.reverse" />
             </q-item-section>
           </q-item>
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>Prepend chip label with node label</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-checkbox :color="config.color" v-model="config.showNodeLabel" />
+            </q-item-section>
+          </q-item>
+          <q-item tag="label" v-if="config.showNodeLabel">
+            <q-item-section>
+              <q-item-label>Prepend node label with node icon</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-checkbox :color="config.color" v-model="config.showNodeIcon" />
+            </q-item-section>
+          </q-item>
+          <q-item tag="label">
+            <q-item-section>
+              <q-item-label>Set buttons label to uppercase state</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-checkbox :color="config.color" v-model="config.uppercase" />
+            </q-item-section>
+          </q-item>
           <q-item>
             <q-item-section>
               <q-input v-bind="defaultAttrs" label="Date format" v-model="config.dateFormat">
                 <template #append>
-                  <q-btn flat dense round icon="mdi-open-in-new" @click="openURL('https://quasar.dev/quasar-utils/date-utils#Format-for-display')" />
+                  <q-btn flat dense round icon="mdi-open-in-new" @click="openURL('https://quasar.dev/quasar-utils/date-utils#Format-for-display')">
+                    <q-tooltip content-class="text-caption bg-grey-9" transition-show="scale" transition-hide="scale">Available Formats</q-tooltip>
+                  </q-btn>
                 </template>
               </q-input>
             </q-item-section>
@@ -63,6 +93,11 @@
           <q-item>
             <q-item-section>
               <q-input v-bind="defaultAttrs" clearable label="Custom label for 'filters available'" v-model="config.propertiesLabel" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-input v-bind="defaultAttrs" clearable label="Class definitions to be attributed to the content of tooltip" v-model="config.tooltipClass" />
             </q-item-section>
           </q-item>
           <q-item>
@@ -102,7 +137,10 @@ export default {
 
       config: {
         color: 'blue',
+        uppercase: false,
         reverse: false,
+        showNodeLabel: true,
+        showNodeIcon: false,
         ignore: ['custom_filter'],
         nodes: [
           {
@@ -220,7 +258,15 @@ export default {
   },
 
   methods: {
-    openURL
+    openURL,
+    saveConfiguration () {
+      this.$q.notify({
+        message: 'Filters configurations saved successfully',
+        caption: 'example',
+        color: this.$q.dark.isActive ? 'dark' : 'primary',
+        icon: 'mdi-content-copy'
+      })
+    }
   }
 }
 </script>
