@@ -1050,20 +1050,20 @@
   resolved "https://registry.yarnpkg.com/@quasar/fastclick/-/fastclick-1.1.4.tgz#21ed3e9a4387dcb43022a08af4ef08a5f1abf159"
   integrity sha512-i9wbyV4iT+v4KhtHJynUFhH5LiEPvAEgSnwMqPN4hf/8uRe82nDl5qP5agrp2el1h0HzyBpbvHaW7NB0BPrtvA==
 
-"@quasar/quasar-app-extension-qmarkdown@^1.0.26":
-  version "1.0.26"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qmarkdown/-/quasar-app-extension-qmarkdown-1.0.26.tgz#9a9b72ec553fc5979b853c2c17c91689c18d6977"
-  integrity sha512-vECibpYhgvviOO6cNzZltsrF/XztZCDw5wFEfog4gLDyjEyXP4etTCeQbw2Hh7fboYjuf6wVT4CnQSorDYBGIw==
+"@quasar/quasar-app-extension-qmarkdown@^1.0.27":
+  version "1.0.27"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qmarkdown/-/quasar-app-extension-qmarkdown-1.0.27.tgz#655cadc4f6e9d913b6ba233561513dd35b0b6d46"
+  integrity sha512-1w8jFussUQnOciXMZs4aUcwTxU82Qk0jTp5IJ8XgWQBm7A4jbA2qNG9ms65i+CsW5UPS/NbI9csWbDQ89YsxOQ==
   dependencies:
-    "@quasar/quasar-ui-qmarkdown" "^1.0.26"
-    front-matter "^3.2.1"
+    "@quasar/quasar-ui-qmarkdown" "^1.0.27"
+    front-matter "^4.0.0"
     raw-loader "^4.0.1"
     ware-loader "^0.2.4"
 
-"@quasar/quasar-ui-qmarkdown@^1.0.26":
-  version "1.0.26"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qmarkdown/-/quasar-ui-qmarkdown-1.0.26.tgz#2c14fbe76418ed117d21df3473754691ef9de59b"
-  integrity sha512-xt7QMx8Bo/2/LDQVokIARmY/jDkBdLDktXX9AshyzhUQYBVTK35H0huEML2SwBiWA/0xs86/JeCXvRX436c5tg==
+"@quasar/quasar-ui-qmarkdown@^1.0.27":
+  version "1.0.27"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qmarkdown/-/quasar-ui-qmarkdown-1.0.27.tgz#24d053ce70e0e15f241740c5d2d9f70041ffa630"
+  integrity sha512-SehWxoUo2ykNJQVrxzmWxhh0MihDVVE+/5SKZ3ETpjIcc862qn37Q+SRLhU4BS3HKKAxWyWPX22Dk5O1CMTyKw==
   dependencies:
     markdown-it "^11.0.0"
     markdown-it-abbr "^1.0.4"
@@ -4305,10 +4305,10 @@ from2@^2.1.0:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
 
-front-matter@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/front-matter/-/front-matter-3.2.1.tgz#88be839638f397bbbcb0d61ac03bd08abb4f0a40"
-  integrity sha512-YUhgEhbL6tG+Ok3vTGIoSDKqcr47aSDvyhEqIv8B+YuBJFsPnOiArNXTPp2yO07NL+a0L4+2jXlKlKqyVcsRRA==
+front-matter@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/front-matter/-/front-matter-4.0.1.tgz#5fde892d19b6ec548b73693818dd94e57b1df163"
+  integrity sha512-Kbm520Nf8Ir1IAdZg2CyXXszDCRsA0NbY25JJFgC9XWOcYyYIngRPk9M7RVpR478sGQfC9hS1Fxwaz58tVJbLw==
   dependencies:
     js-yaml "^3.13.1"
 
@@ -7647,8 +7647,7 @@ qs@~6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 "quasar-app-extension-q-filter-configurator@link:..":
-  version "0.0.0"
-  uid ""
+  version "1.0.5"
 
 quasar@^1.11.3:
   version "1.11.3"
