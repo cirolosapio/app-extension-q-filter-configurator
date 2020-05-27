@@ -434,6 +434,7 @@ export default {
       else if (this.getFilter(key).range) this.$set(this.copy, key, { min: null, max: null })
       else this.$set(this.copy, key, null)
       this.$delete(this.value, key)
+      this.emitInput()
     },
     selectAllByModel (opts, key) {
       opts.forEach(({ value }) => {
