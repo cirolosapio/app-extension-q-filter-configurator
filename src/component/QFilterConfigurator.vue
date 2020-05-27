@@ -67,6 +67,7 @@
                         <q-item-label>{{ label }}</q-item-label>
                       </q-item-section>
                     </q-item>
+
                     <q-item-label caption class="q-px-md q-py-sm" v-if="!range && !date && filteredOptions(options).length === 0">{{ $q.lang.table.noResults }}</q-item-label>
                   </q-expansion-item>
                 </q-scroll-area>
@@ -107,7 +108,7 @@
                       <q-separator :key="`result-filter-s-${idxV}`" />
                     </template>
 
-                    <template v-else-if="!!getFilter(filter).date">
+                    <template v-else-if="getFilter(filter).date">
                       <q-item-label header class="q-px-sm q-py-xs" :key="`result-filter-l-${idxV}`">{{ getFilter(filter).label }}</q-item-label>
                       <q-item dense class="q-pl-sm q-pr-md" :key="`result-filter-${idxV}`">
                         <q-item-section>
@@ -120,7 +121,7 @@
                       <q-separator :key="`result-filter-s-${idxV}`" />
                     </template>
 
-                    <template v-else-if="!!getFilter(filter).range">
+                    <template v-else-if="getFilter(filter).range">
                       <q-item-label header class="q-px-sm q-py-xs" :key="`result-filter-l-${idxV}`">{{ getFilter(filter).label }}</q-item-label>
                       <q-item dense class="q-pl-sm q-pr-md" :key="`result-filter-${idxV}`">
                         <q-item-section>
@@ -172,14 +173,14 @@
           {{ getFilter(filter).label }} = {{ getAllOptionLabels(filter, values, values.length > maxDisplay) }}
           <q-tooltip v-bind="tooltipProps" v-if="values.length > maxDisplay">{{ getAllOptionLabels(filter, values, false) }}</q-tooltip>
         </template>
-        <template v-else-if="!!getFilter(filter).date">
+        <template v-else-if="getFilter(filter).date">
           <template v-if="showNodeLabel">
             <q-icon :name="getNodeFromFilter(filter).icon" v-if="showNodeIcon" />
             {{ getNodeFromFilter(filter).label }}:
           </template>
           {{ getFilter(filter).label }} = {{ values.from | format(dateFormat) }} - {{ values.to | format(dateFormat) }}
         </template>
-        <template v-else-if="!!getFilter(filter).range">
+        <template v-else-if="getFilter(filter).range">
           <template v-if="showNodeLabel">
             <q-icon :name="getNodeFromFilter(filter).icon" v-if="showNodeIcon" />
             {{ getNodeFromFilter(filter).label }}:
@@ -323,8 +324,7 @@ export default {
       return filters => filters.filter(({ options, model, multiple, range, date, label }) => {
         let isValid = !this.ignore.includes(model)
         if (multiple) isValid = isValid && options ? this.validOptions(options).length > 0 : false
-        if (date) isValid = isValid && (this.search ? this.computeSearch(label) : true)
-        if (range) isValid = isValid && (this.search ? this.computeSearch(label) : true)
+        if (date || range) isValid = isValid && (this.search ? this.computeSearch(label) : true)
         return isValid
       })
     },
@@ -358,7 +358,7 @@ export default {
       }
     },
     allFilters () {
-      return this.validNodes.map(({ filters }) => filters).flat()
+      return this.nodes.map(({ filters }) => filters).flat()
     },
     getFilter () {
       return key => this.allFilters.find(({ model }) => key === model)
