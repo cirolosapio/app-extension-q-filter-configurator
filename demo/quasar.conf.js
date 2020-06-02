@@ -29,6 +29,7 @@ module.exports = configure(function (ctx) {
       // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
+      // 'mdi-v4',
       // 'mdi-v5',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
@@ -70,6 +71,7 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
 
+      modern: true,
       publicPath: 'app-extension-q-filter-configurator',
       // rtl: false, // https://quasar.dev/options/rtl-support
       showProgress: ctx.dev,
@@ -77,7 +79,7 @@ module.exports = configure(function (ctx) {
       analyze: false,
 
       // Options below are automatically set depending on the env, set them if you want to override
-      // preloadChunks: true,
+      preloadChunks: true,
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
@@ -86,10 +88,7 @@ module.exports = configure(function (ctx) {
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /node_modules/,
-          options: {
-            formatter: require('eslint').CLIEngine.getFormatter('stylish')
-          }
+          exclude: /node_modules/
         })
       }
     },
@@ -98,7 +97,7 @@ module.exports = configure(function (ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true, // opens browser window automatically
+      open: true // opens browser window automatically
       // watchOptions: {
       //   ignored: [
       //     'node_modules',
@@ -199,7 +198,7 @@ module.exports = configure(function (ctx) {
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
 
-      extendWebpack (cfg) {
+      extendWebpack (/* cfg */) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       }
