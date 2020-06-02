@@ -1,7 +1,9 @@
 Quasar App Extension - QFilterConfigurator (q-filter-configurator)
 ===
 
-QFilterConfigurator is an `UI App Extension` for [Quasar Framework v1](https://quasar.dev/). It will not work with legacy versions of Quasar Framework.
+![npm](https://img.shields.io/npm/v/quasar-app-extension-q-filter-configurator?label=quasar-app-extension-q-filter-configurator)
+
+QFilterConfigurator is an `App Extension` for [Quasar Framework v1](https://quasar.dev/). It will not work with legacy versions of Quasar Framework.
 
 # Install
 To add this App Extension to your Quasar application, run the following (in your Quasar app folder):

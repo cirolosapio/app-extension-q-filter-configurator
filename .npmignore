@@ -10,4 +10,3 @@ _redirects
 babel.config.js
 package-lock.jso
 yarn.lock
-/src/component/QFilterConfigurator.json

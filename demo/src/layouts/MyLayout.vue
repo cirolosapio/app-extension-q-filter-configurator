@@ -26,13 +26,13 @@
               <q-item-label caption>q-filter-configurator</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable tag="a" target="_blank" href="https://github.com/heartbeatLV/app-extension-q-date-filter" class="text-teal">
+          <q-item clickable tag="a" target="_blank" href="https://github.com/heartbeatLV/app-extension-q-date-picker" class="text-teal">
             <q-item-section avatar>
               <q-icon name="mdi-calendar-blank" color="teal" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>QDateFilter</q-item-label>
-              <q-item-label caption>q-date-filter</q-item-label>
+              <q-item-label>QDatePicker</q-item-label>
+              <q-item-label caption>q-date-picker</q-item-label>
             </q-item-section>
           </q-item>
         </q-expansion-item>

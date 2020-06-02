@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.8.1",
-    "quasar": "^1.11.3"
+    "quasar": "^1.12.2"
   },
   "devDependencies": {
-    "@quasar/app": "^1.8.10",
-    "@quasar/quasar-app-extension-qmarkdown": "^1.0.26",
+    "@quasar/app": "^1.9.5",
+    "@quasar/quasar-app-extension-qmarkdown": "^1.0.27",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.3",

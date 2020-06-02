@@ -39,7 +39,18 @@
         <q-list dense separator bordered class="rounded-borders">
           <q-item>
             <q-item-section>
-              <q-select v-bind="defaultAttrs" options-dense :options="colors" label="Color" :options-selected-class="`text-${config.color}`" v-model="config.color" />
+              <q-select v-bind="defaultAttrs" options-dense :options="colors" label="Color" :options-selected-class="`text-${config.color}`" v-model="config.color">
+                <template #option="{ opt, itemProps, itemEvents }">
+                  <q-item v-bind="itemProps" v-on="itemEvents">
+                    <q-item-section>
+                      <q-item-label>{{ opt }}</q-item-label>
+                    </q-item-section>
+                    <q-item-section avatar>
+                      <q-badge :color="opt" />
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
             </q-item-section>
           </q-item>
           <q-item>
@@ -93,11 +104,6 @@
           <q-item>
             <q-item-section>
               <q-input v-bind="defaultAttrs" clearable label="Custom label for 'filters available'" v-model="config.propertiesLabel" />
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-input v-bind="defaultAttrs" clearable label="Class definitions to be attributed to the content of tooltip" v-model="config.tooltipClass" />
             </q-item-section>
           </q-item>
           <q-item>
