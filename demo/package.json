@@ -12,7 +12,7 @@
     "lint-fix": "eslint --ext .js,.vue src --fix"
   },
   "dependencies": {
-    "@quasar/extras": "^1.8.1",
+    "@quasar/extras": "^1.8.2",
     "quasar": "^1.12.2"
   },
   "devDependencies": {
