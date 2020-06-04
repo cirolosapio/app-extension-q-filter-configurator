@@ -932,10 +932,10 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/app@^1.9.5":
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.9.5.tgz#24c52a47678bd4a2b648b3869df58e323a33ed74"
-  integrity sha512-P+pFoBxUNsme9mzEWZdIg/bsvxXp3rrJE5su8Ytaq41Pc88ByDtbLYyYr9rQz/hcAl8mhsZFErUcJXHy23VYew==
+"@quasar/app@^1.9.6":
+  version "1.9.6"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.9.6.tgz#dbfabe843fd3e351d1cad52a2d7cb6ba3922645b"
+  integrity sha512-7vQlnsJFghFG+yjub+5hhejqWV5oqOMHYI+uiSyTbEX+4z5kZAerh3RnaUYZcfWVLy2I6ZzeuS/qOa4YEyqvCg==
   dependencies:
     "@quasar/babel-preset-app" "1.2.0"
     "@quasar/fastclick" "1.1.4"
@@ -1000,7 +1000,7 @@
     url-loader "4.1.0"
     vue "2.6.11"
     vue-loader "15.9.2"
-    vue-router "3.3.2"
+    vue-router "3.2.0"
     vue-server-renderer "2.6.11"
     vue-style-loader "4.1.2"
     vue-template-compiler "2.6.11"
@@ -7579,8 +7579,7 @@ qs@~6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 "quasar-app-extension-q-filter-configurator@link:..":
-  version "0.0.0"
-  uid ""
+  version "1.0.6"
 
 quasar@^1.12.2:
   version "1.12.2"
@@ -9467,10 +9466,10 @@ vue-loader@15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.3.2.tgz#0099de402edb2fe92f9711053ab5a2156f239cad"
-  integrity sha512-5sEbcfb7MW8mY8lbUVbF4kgcipGXsagkM/X+pb6n0MhjP+RorWIUTPAPSqgPaiPOxVCXgAItBl8Vwz8vq78faA==
+vue-router@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.2.0.tgz#da35195ffe37fdf0bec9f5f8f72781d2a7718815"
+  integrity sha512-khkrcUIzMcI1rDcNtqkvLwfRFzB97GmJEsPAQdj7t/VvpGhmXLOkUfhc+Ah8CvpSXGXwuWuQO+x8Sy/xDhXZIA==
 
 vue-server-renderer@2.6.11:
   version "2.6.11"
