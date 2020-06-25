@@ -35,6 +35,15 @@
               <q-item-label caption>q-date-picker</q-item-label>
             </q-item-section>
           </q-item>
+          <q-item clickable tag="a" target="_blank" href="https://github.com/heartbeatLV/app-extension-qs-select" class="text-teal">
+            <q-item-section avatar>
+              <q-icon name="mdi-form-select" color="teal" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>QsSelect</q-item-label>
+              <q-item-label caption>qs-select</q-item-label>
+            </q-item-section>
+          </q-item>
         </q-expansion-item>
         <q-expansion-item group="links" expand-separator icon="mdi-link" label="Quasar Framework" caption="@quasar" dark header-class="bg-primary">
           <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
