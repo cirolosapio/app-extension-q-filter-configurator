@@ -12,22 +12,22 @@
     "lint-fix": "eslint --ext .js,.vue src --fix"
   },
   "dependencies": {
-    "@quasar/extras": "^1.8.2",
+    "@quasar/extras": "^1.9.5",
     "core-js": "^3.6.5",
-    "quasar": "^1.12.8"
+    "quasar": "^1.13.2"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.1",
-    "@quasar/quasar-app-extension-qmarkdown": "^1.0.29",
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-loader": "^3.0.3",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^4.0.1",
+    "@quasar/app": "^2.0.9",
+    "@quasar/quasar-app-extension-qmarkdown": "^1.0.31",
+    "eslint": "^7.8.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-quasar": "^1.0.0",
-    "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.1.2",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^6.2.2",
     "quasar-app-extension-q-filter-configurator": "link:../."
   },
   "browserslist": [
