@@ -108,6 +108,11 @@
           </q-item>
           <q-item>
             <q-item-section>
+              <q-input v-bind="defaultAttrs" clearable label="Placeholder" v-model="config.placeholder" />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
               <q-input :min="2" v-bind="defaultAttrs" hide-bottom-space :value="config.maxDisplay" label="Maximum number of values to display" type="number" @input="val => $set(config, 'maxDisplay', val > 1 ? Number(val) : config.maxDisplay)" />
             </q-item-section>
           </q-item>
@@ -143,6 +148,7 @@ export default {
 
       config: {
         color: 'blue',
+        placeholder: 'Click to start',
         uppercase: false,
         reverse: false,
         showNodeLabel: true,

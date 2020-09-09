@@ -2,6 +2,7 @@
   <div class="row q-gutter-y-xs" :class="{ reverse }">
     <div class="col-auto">
       <q-btn v-bind="btnAttrs">
+        <div class="q-px-sm" v-if="placeholder && Object.keys(removableFilters).length === 0">{{ placeholder }}</div>
         <q-menu cover anchor="top left" ref="menu" @before-show="initCopy()">
           <div class="row" style="min-width: 750px">
             <div class="col">
@@ -200,7 +201,7 @@
 </template>
 
 <script>
-import { mdiPlus, mdiMagnify, mdiClose, mdiGestureTap, mdiCheckboxMultipleMarked, mdiCheckBoxMultipleOutline, mdiCalendarBlank } from '@quasar/extras/mdi-v5'
+import { mdiFilter, mdiPlus, mdiMagnify, mdiClose, mdiGestureTap, mdiCheckboxMultipleMarked, mdiCheckBoxMultipleOutline, mdiCalendarBlank } from '@quasar/extras/mdi-v5'
 import { date } from 'quasar'
 export default {
   name: 'QFilterConfigurator',
@@ -239,6 +240,7 @@ export default {
         contentClass: 'text-caption'
       })
     },
+    placeholder: String,
     propertiesLabel: String,
     reverse: Boolean,
     showNodeLabel: Boolean,
@@ -272,14 +274,15 @@ export default {
     // css configs
     btnAttrs () {
       return {
-        dense: true,
+        noCaps: true,
         rounded: true,
         unelevated: true,
         color: this.$q.dark.isActive ? 'grey-9' : this.color + '-1',
         textColor: this.color,
-        icon: mdiPlus,
-        size: '12px',
-        class: 'dashed-border custom-button full-height'
+        iconRight: Object.keys(this.removableFilters).length === 0 ? mdiPlus : mdiFilter,
+        size: '13px',
+        padding: Object.keys(this.removableFilters).length === 0 && this.placeholder ? 'xs sm' : 'xs',
+        class: 'dashed-border full-height'
       }
     },
     chipAttrs () {

@@ -105,11 +105,18 @@
       "default": "{ transitionShow: 'scale', transitionHide: 'scale', contentClass: 'text-caption' }",
       "category": "style"
     },
+    "placeholder": {
+      "type": [
+        "String"
+      ],
+      "desc": "Placeholder label when no filters are set",
+      "category": "content"
+    },
     "propertiesLabel": {
       "type": [
         "String"
       ],
-      "desc": "Set the  'properties' label",
+      "desc": "Set the 'properties' label",
       "category": "content"
     },
     "dateFormat": {
