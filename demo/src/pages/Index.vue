@@ -4,6 +4,22 @@
       <template #actions>
         <q-btn label="Save" no-caps flat color="amber" @click="saveConfiguration" />
       </template>
+
+      <template #slot_filter="props">
+        <q-markdown>
+          props from parent:
+```js
+{{ props }}
+```
+        </q-markdown>
+      </template>
+      <template #slot_filter_select="{ copy, label, multiple, options }">
+        <q-item>
+          <q-item-section>
+            <q-select emit-value map-options dense borderless :label="label" :multiple="multiple" :options="options" v-model="copy.slot_filter_select" />
+          </q-item-section>
+        </q-item>
+      </template>
     </q-filter-configurator>
 
     <q-badge multi-line :outline="$q.dark.isActive" :color="config.color" class="q-my-sm">model: {{ model }}</q-badge>
@@ -141,6 +157,7 @@ export default {
       colors: ['blue', 'green', 'purple', 'orange', 'red', 'brown', 'blue-grey', 'teal', 'amber', 'yellow', 'cyan', 'black', 'grey'],
 
       model: {
+        slot_filter_select: [1],
         custom_filter: 'some filter',
         city_id: [10],
         region_flag: 'Italy'
@@ -170,6 +187,16 @@ export default {
                   { label: 'Tv', value: 4 },
                   { label: 'Social', value: 5 },
                   { label: 'Web Site', value: 6 }
+                ]
+              },
+              { label: 'Slot Filter', model: 'slot_filter', options: [] },
+              {
+                label: 'Select slot example',
+                model: 'slot_filter_select',
+                multiple: true,
+                options: [
+                  { label: 'One', value: 1 },
+                  { label: 'Two', value: 2 }
                 ]
               }
             ]

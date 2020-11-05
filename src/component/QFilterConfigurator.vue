@@ -44,7 +44,9 @@
                       </q-item-section>
                     </template>
 
-                    <q-item v-if="range">
+                    <slot :name="model" v-bind="{ copy, multiple, range, date, label, options }" v-if="Boolean($scopedSlots[model])" />
+
+                    <q-item v-else-if="range">
                       <q-item-section>
                         <q-range :color="color" label v-bind="range" v-model="copy[model]" />
                       </q-item-section>
@@ -69,7 +71,7 @@
                       </q-item-section>
                     </q-item>
 
-                    <q-item-label caption class="q-px-md q-py-sm" v-if="!range && !date && filteredOptions(options).length === 0">{{ $q.lang.table.noResults }}</q-item-label>
+                    <q-item-label caption class="q-px-md q-py-sm" v-if="!Boolean($scopedSlots[model]) && !range && !date && filteredOptions(options).length === 0">{{ $q.lang.table.noResults }}</q-item-label>
                   </q-expansion-item>
                 </q-scroll-area>
                 <template v-if="propertiesLabel">
@@ -327,7 +329,7 @@ export default {
       return filters => filters.filter(({ options, model, multiple, range, date, label }) => {
         let isValid = !this.ignore.includes(model)
         if (multiple) isValid = isValid && options ? this.validOptions(options).length > 0 : false
-        if (date || range) isValid = isValid && (this.search ? this.computeSearch(label) : true)
+        if (date || range || Boolean(this.$scopedSlots[model])) isValid = isValid && (this.search ? this.computeSearch(label) : true)
         return isValid
       })
     },
