@@ -23,16 +23,14 @@ module.exports = {
     // but leave only one uncommented!
     // See https://eslint.vuejs.org/rules/#available-rules
     'plugin:vue/essential', // Priority A: Essential (Error Prevention)
-    // 'plugin:vue/strongly-recommended' // Priority B: Strongly Recommended (Improving Readability)
-    // 'plugin:vue/recommended' // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
+    // 'plugin:vue/strongly-recommended', // Priority B: Strongly Recommended (Improving Readability)
+    // 'plugin:vue/recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
 
     'standard',
-
 
     'plugin:quasar/standard'
   ],
 
-  // required to lint *.vue files
   plugins: [
     // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
     // required to lint *.vue files
@@ -41,12 +39,12 @@ module.exports = {
   ],
 
   globals: {
-    'ga': true, // Google Analytics
-    'cordova': true,
-    '__statics': true,
-    'process': true,
-    'Capacitor': true,
-    'chrome': true
+    ga: true, // Google Analytics
+    cordova: true,
+    __statics: true,
+    process: true,
+    Capacitor: true,
+    chrome: true
   },
 
   // add your custom rules here
@@ -66,20 +64,20 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
-    'camelcase': 0,
+    camelcase: 0,
 
     'quasar/no-invalid-props': 'error',
     'quasar/no-invalid-qfield-usage': 'error',
 
     'comma-dangle': ['error', 'never'],
     // 'camelcase': ['error', { 'properties': 'never', ignoreDestructuring: true }],
-    'eqeqeq': ['error', 'smart'],
+    eqeqeq: ['error', 'smart'],
 
     'vue/attribute-hyphenation': 'error',
     'vue/html-closing-bracket-spacing': ['error', {
-      'startTag': 'never',
-      'endTag': 'never',
-      'selfClosingTag': 'always'
+      startTag: 'never',
+      endTag: 'never',
+      selfClosingTag: 'always'
     }],
     // 'vue/html-indent': ['error', 2, {
     //   'attribute': 1,
@@ -89,19 +87,19 @@ module.exports = {
     //   'ignores': []
     // }],
     'vue/html-self-closing': ['error', {
-      'html': {
-        'void': 'always',
-        'normal': 'always',
-        'component': 'always'
+      html: {
+        void: 'always',
+        normal: 'always',
+        component: 'always'
       },
-      'svg': 'always',
-      'math': 'always'
+      svg: 'always',
+      math: 'always'
     }],
     'vue/component-name-in-template-casing': ['error', 'kebab-case', {
-      'registeredComponentsOnly': true,
-      'ignores': []
+      registeredComponentsOnly: true,
+      ignores: []
     }],
-    'vue/html-quotes': ['error', 'double', { 'avoidEscape': false }],
+    'vue/html-quotes': ['error', 'double', { avoidEscape: false }],
     'vue/mustache-interpolation-spacing': ['error', 'always'],
     'vue/name-property-casing': 'error',
     'vue/no-multi-spaces': 'error',
@@ -109,7 +107,7 @@ module.exports = {
     'vue/v-bind-style': ['error', 'shorthand'],
     'vue/v-on-style': ['error', 'shorthand'],
     'vue/attributes-order': ['error', {
-      'order': [
+      order: [
         'DEFINITION',
         'OTHER_ATTR',
         'LIST_RENDERING',
@@ -122,10 +120,10 @@ module.exports = {
         'EVENTS',
         'CONTENT'
       ],
-      'alphabetical': false
+      alphabetical: false
     }],
     'vue/order-in-components': ['error', {
-      'order': [
+      order: [
         'el',
         'name',
         'parent',
@@ -150,8 +148,8 @@ module.exports = {
       ]
     }],
     'vue/match-component-file-name': ['error', {
-      'extensions': ['vue'],
-      'shouldMatchCase': true
+      extensions: ['vue'],
+      shouldMatchCase: true
     }],
     'vue/v-slot-style': 'error',
     'vue/eqeqeq': ['error', 'smart'],
@@ -181,8 +179,6 @@ module.exports = {
     // vue/require-prop-types non so
     // vue/v-on-function-call non so
 
-    // allow console.log during development only
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
