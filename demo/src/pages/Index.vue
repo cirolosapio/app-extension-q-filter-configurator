@@ -189,6 +189,7 @@ export default {
                   { label: 'Web Site', value: 6 }
                 ]
               },
+              { label: 'Date not clearable', model: 'not_clearable', date: true, noClear: true },
               { label: 'Slot Filter', model: 'slot_filter', options: [] },
               {
                 label: 'Select slot example',

@@ -97,7 +97,7 @@
                           <q-item-label header class="q-pa-none">{{ getFilter(filter).label }}</q-item-label>
                         </q-item-section>
                         <q-item-section side v-if="values.length > 1">
-                          <q-icon :color="color" class="cursor-pointer q-mr-sm" :name="mdiCheckboxMultipleMarked" @click="setCopy(filter, [])" />
+                          <q-icon :color="color" class="cursor-pointer q-mr-sm" :name="mdiCloseCircleMultiple" @click="setCopy(filter, [])" />
                         </q-item-section>
                       </q-item>
                       <q-item dense class="q-pl-sm q-pr-md" v-for="(val, index) in values" :key="`result-${filter}-option-${index}`">
@@ -117,7 +117,7 @@
                         <q-item-section>
                           <q-item-label class="q-pl-xs">{{ values.from | format(dateFormat) }} - {{ values.to | format(dateFormat) }}</q-item-label>
                         </q-item-section>
-                        <q-item-section side>
+                        <q-item-section side v-if="!getFilter(filter).noClear">
                           <q-icon :name="mdiClose" class="cursor-pointer" @click="setCopy(filter, { from: null, to: null })" />
                         </q-item-section>
                       </q-item>
@@ -130,7 +130,7 @@
                         <q-item-section>
                           <q-item-label class="q-pl-xs">{{ values.min }} - {{ values.max }}</q-item-label>
                         </q-item-section>
-                        <q-item-section side>
+                        <q-item-section side v-if="!getFilter(filter).noClear">
                           <q-icon :name="mdiClose" class="cursor-pointer" @click="setCopy(filter, { min: null, max: null })" />
                         </q-item-section>
                       </q-item>
@@ -143,7 +143,7 @@
                         <q-item-section>
                           <q-item-label class="q-pl-xs">{{ getOption(filter, values).label }}</q-item-label>
                         </q-item-section>
-                        <q-item-section side>
+                        <q-item-section side v-if="!getFilter(filter).noClear">
                           <q-icon :name="mdiClose" class="cursor-pointer" @click="setCopy(filter, null)" />
                         </q-item-section>
                       </q-item>
@@ -167,7 +167,7 @@
     </div>
 
     <div class="col row" :class="{ reverse }">
-      <q-chip v-bind="chipAttrs" v-for="(values, filter) in removableFilters" :key="`chip-${filter}`" @remove="removeFilter(filter, values)">
+      <q-chip v-bind="chipAttrs(filter)" v-for="(values, filter) in removableFilters" :key="`chip-${filter}`" @remove="removeFilter(filter, values)">
         <template v-if="Array.isArray(values)">
           <template v-if="showNodeLabel">
             <q-icon :name="getNodeFromFilter(filter).icon" v-if="showNodeIcon" />
@@ -203,7 +203,7 @@
 </template>
 
 <script>
-import { mdiFilter, mdiPlus, mdiMagnify, mdiClose, mdiGestureTap, mdiCheckboxMultipleMarked, mdiCheckBoxMultipleOutline, mdiCalendarBlank } from '@quasar/extras/mdi-v5'
+import { mdiFilter, mdiPlus, mdiMagnify, mdiClose, mdiGestureTap, mdiCloseCircleMultiple, mdiCheckboxMultipleMarked, mdiCheckBoxMultipleOutline, mdiCalendarBlank } from '@quasar/extras/mdi-v5'
 import { date } from 'quasar'
 export default {
   name: 'QFilterConfigurator',
@@ -219,7 +219,14 @@ export default {
     nodes: {
       type: Array,
       default: () => [],
-      validation: nodes => nodes.map(({ filters }) => !!filters && Array.isArray(filters))
+      validator: nodes => nodes.reduce((validNodes, { filters }) => {
+        const filtersIsArray = filters && Array.isArray(filters)
+        const validFilters = filters.reduce((validFilters, { multiple, noClear }) => {
+          const isMultipleNotClearable = (!multiple || (multiple && !noClear))
+          return validFilters && isMultipleNotClearable
+        }, true)
+        return validNodes && filtersIsArray && validFilters
+      }, true)
     },
     ignore: {
       type: Array,
@@ -232,7 +239,7 @@ export default {
     maxDisplay: {
       type: [Number, String],
       default: () => 5,
-      validation: val => val > 1
+      validator: val => val > 1
     },
     tooltipProps: {
       type: Object,
@@ -263,14 +270,13 @@ export default {
       mdiClose,
       mdiGestureTap,
       mdiCheckboxMultipleMarked,
+      mdiCloseCircleMultiple,
       mdiCheckBoxMultipleOutline,
       mdiCalendarBlank
     }
   },
 
-  created () {
-    this.initCopy()
-  },
+  created () { this.initCopy() },
 
   computed: {
     // css configs
@@ -288,13 +294,13 @@ export default {
       }
     },
     chipAttrs () {
-      return {
-        removable: true,
+      return filter => ({
+        removable: !this.getFilter(filter).noClear,
         dense: true,
         color: this.$q.dark.isActive ? 'grey-10' : this.color + '-1',
         textColor: this.color,
         class: 'custom-chip'
-      }
+      })
     },
     tabsAttrs () {
       return {
@@ -418,11 +424,13 @@ export default {
     },
     resetCopy () {
       this.validNodes.forEach(({ filters }) => {
-        filters.forEach(({ model, multiple, range, date }) => {
-          if (multiple) this.$set(this.copy, model, [])
-          else if (date) this.$set(this.copy, model, { from: null, to: null })
-          else if (range) this.$set(this.copy, model, { min: null, max: null })
-          else this.$set(this.copy, model, null)
+        filters.forEach(({ model, multiple, range, date, noClear }) => {
+          if (!noClear) {
+            if (multiple) this.$set(this.copy, model, [])
+            else if (date) this.$set(this.copy, model, { from: null, to: null })
+            else if (range) this.$set(this.copy, model, { min: null, max: null })
+            else this.$set(this.copy, model, null)
+          }
         })
       })
     },
