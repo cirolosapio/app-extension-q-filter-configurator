@@ -7,7 +7,7 @@
           <div class="row" style="min-width: 750px">
             <div class="col">
               <q-tabs v-bind="tabsAttrs" v-model="tab">
-                <q-tab v-bind="{ label, icon, name: idxN, class: 'custom-tab' }" v-for="({ label, icon }, idxN) in validNodes" :key="`tab-${idxN}`" />
+                <q-tab v-for="({ label, icon }, idxN) in validNodes" v-bind="{ label, icon, name: idxN, class: 'custom-tab' }" :key="`tab-${idxN}`" />
               </q-tabs>
             </div>
 
@@ -22,7 +22,7 @@
               <q-separator />
               <q-list dense>
                 <q-scroll-area :style="`height: ${propertiesLabel ? 250 : 281}px`">
-                  <q-expansion-item v-bind="expItemAttrs({ model, multiple, range, date, idxF })" v-for="({ model, multiple, range, date, label, options }, idxF) in validFilters(validNodes[tab].filters)" :key="`filter-${model}`">
+                  <q-expansion-item v-for="({ model, multiple, range, date, label, options }, idxF) in validFilters(validNodes[tab].filters)" v-bind="expItemAttrs({ model, multiple, range, date, idxF })" :key="`filter-${model}`">
                     <template #header>
                       <q-item-section>{{ label }}</q-item-section>
                       <template v-if="multiple">
@@ -167,7 +167,7 @@
     </div>
 
     <div class="col row" :class="{ reverse }">
-      <q-chip v-bind="chipAttrs(filter)" v-for="(values, filter) in removableFilters" :key="`chip-${filter}`" @remove="removeFilter(filter, values)">
+      <q-chip v-for="(values, filter) in removableFilters" v-bind="chipAttrs(filter)" :key="`chip-${filter}`" @remove="removeFilter(filter, values)">
         <template v-if="Array.isArray(values)">
           <template v-if="showNodeLabel">
             <q-icon :name="getNodeFromFilter(filter).icon" v-if="showNodeIcon" />
